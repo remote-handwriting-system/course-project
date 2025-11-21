@@ -1,0 +1,2 @@
+source /home/maxi/git/berkeley/course-project/input-system/blink/build/bootloader/gdbinit/symbols
+source /home/maxi/git/berkeley/course-project/input-system/blink/build/bootloader/gdbinit/connect

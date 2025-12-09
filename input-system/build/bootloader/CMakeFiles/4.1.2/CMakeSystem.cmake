@@ -1,9 +1,9 @@
-set(CMAKE_HOST_SYSTEM "Linux-6.17.1-arch1-1-surface")
+set(CMAKE_HOST_SYSTEM "Linux-6.17.7-arch1-2")
 set(CMAKE_HOST_SYSTEM_NAME "Linux")
-set(CMAKE_HOST_SYSTEM_VERSION "6.17.1-arch1-1-surface")
+set(CMAKE_HOST_SYSTEM_VERSION "6.17.7-arch1-2")
 set(CMAKE_HOST_SYSTEM_PROCESSOR "x86_64")
 
-include("/home/maxi/esp/v5.5.1/esp-idf/tools/cmake/toolchain-esp32c6.cmake")
+include("/home/aksel/esp/v5.4/esp-idf/tools/cmake/toolchain-esp32c6.cmake")
 
 set(CMAKE_SYSTEM "Generic")
 set(CMAKE_SYSTEM_NAME "Generic")

@@ -1,4 +1,5 @@
 #include "2d-pos-encoder.h"
+#include <stdbool.h>
 #include "double-angles-reader.h"
 #include <math.h>
 #include "esp_log.h"

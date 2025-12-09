@@ -1,4 +1,4 @@
-# Install script for directory: /home/maxi/esp/v5.5.1/esp-idf/components/esp_hw_support
+# Install script for directory: /home/aksel/esp/v5.4/esp-idf/components/esp_hw_support
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,22 +34,22 @@ endif()
 
 # Set path to fallback-tool for dependency-resolution.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "/home/maxi/.espressif/tools/riscv32-esp-elf/esp-14.2.0_20241119/riscv32-esp-elf/bin/riscv32-esp-elf-objdump")
+  set(CMAKE_OBJDUMP "/home/aksel/.espressif/tools/riscv32-esp-elf/esp-14.2.0_20241119/riscv32-esp-elf/bin/riscv32-esp-elf-objdump")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/maxi/git/berkeley/course-project/input-system/build/bootloader/esp-idf/esp_hw_support/port/esp32c6/cmake_install.cmake")
+  include("/home/aksel/ucb/cs249a/course-project/input-system/build/bootloader/esp-idf/esp_hw_support/port/esp32c6/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/maxi/git/berkeley/course-project/input-system/build/bootloader/esp-idf/esp_hw_support/lowpower/cmake_install.cmake")
+  include("/home/aksel/ucb/cs249a/course-project/input-system/build/bootloader/esp-idf/esp_hw_support/lowpower/cmake_install.cmake")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/maxi/git/berkeley/course-project/input-system/build/bootloader/esp-idf/esp_hw_support/install_local_manifest.txt"
+  file(WRITE "/home/aksel/ucb/cs249a/course-project/input-system/build/bootloader/esp-idf/esp_hw_support/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

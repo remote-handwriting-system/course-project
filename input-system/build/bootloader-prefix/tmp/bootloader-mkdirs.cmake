@@ -6,22 +6,22 @@ cmake_minimum_required(VERSION ${CMAKE_VERSION}) # this file comes with cmake
 # If CMAKE_DISABLE_SOURCE_CHANGES is set to true and the source directory is an
 # existing directory in our source tree, calling file(MAKE_DIRECTORY) on it
 # would cause a fatal error, even though it would be a no-op.
-if(NOT EXISTS "/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject")
-  file(MAKE_DIRECTORY "/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject")
+if(NOT EXISTS "/home/aksel/esp/v5.4/esp-idf/components/bootloader/subproject")
+  file(MAKE_DIRECTORY "/home/aksel/esp/v5.4/esp-idf/components/bootloader/subproject")
 endif()
 file(MAKE_DIRECTORY
-  "/home/maxi/git/berkeley/course-project/input-system/build/bootloader"
-  "/home/maxi/git/berkeley/course-project/input-system/build/bootloader-prefix"
-  "/home/maxi/git/berkeley/course-project/input-system/build/bootloader-prefix/tmp"
-  "/home/maxi/git/berkeley/course-project/input-system/build/bootloader-prefix/src/bootloader-stamp"
-  "/home/maxi/git/berkeley/course-project/input-system/build/bootloader-prefix/src"
-  "/home/maxi/git/berkeley/course-project/input-system/build/bootloader-prefix/src/bootloader-stamp"
+  "/home/aksel/ucb/cs249a/course-project/input-system/build/bootloader"
+  "/home/aksel/ucb/cs249a/course-project/input-system/build/bootloader-prefix"
+  "/home/aksel/ucb/cs249a/course-project/input-system/build/bootloader-prefix/tmp"
+  "/home/aksel/ucb/cs249a/course-project/input-system/build/bootloader-prefix/src/bootloader-stamp"
+  "/home/aksel/ucb/cs249a/course-project/input-system/build/bootloader-prefix/src"
+  "/home/aksel/ucb/cs249a/course-project/input-system/build/bootloader-prefix/src/bootloader-stamp"
 )
 
 set(configSubDirs )
 foreach(subDir IN LISTS configSubDirs)
-    file(MAKE_DIRECTORY "/home/maxi/git/berkeley/course-project/input-system/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
+    file(MAKE_DIRECTORY "/home/aksel/ucb/cs249a/course-project/input-system/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
 endforeach()
 if(cfgdir)
-  file(MAKE_DIRECTORY "/home/maxi/git/berkeley/course-project/input-system/build/bootloader-prefix/src/bootloader-stamp${cfgdir}") # cfgdir has leading slash
+  file(MAKE_DIRECTORY "/home/aksel/ucb/cs249a/course-project/input-system/build/bootloader-prefix/src/bootloader-stamp${cfgdir}") # cfgdir has leading slash
 endif()

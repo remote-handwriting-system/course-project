@@ -1,0 +1,4 @@
+source ~/esp/v5.5.1/esp-idf/export.sh
+sudo chmod 666 /dev/ttyUSB0
+idf.py -p /dev/ttyUSB0 set-target esp32c6
+idf.py -p /dev/ttyUSB0 flash monitor

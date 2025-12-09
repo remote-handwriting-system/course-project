@@ -1,0 +1,1063 @@
+Command: /home/maxi/.espressif/python_env/idf5.5_py3.13_env/bin/python /home/maxi/esp/v5.5.1/esp-idf/tools/idf_monitor.py -p /dev/ttyUSB0 -b 115200 --toolchain-prefix riscv32-esp-elf- --target esp32c6 --revision 0 --decode-panic backtrace /home/maxi/git/berkeley/course-project/input-system/build/blink.elf /home/maxi/git/berkeley/course-project/input-system/build/bootloader/bootloader.elf -m '/home/maxi/.espressif/python_env/idf5.5_py3.13_env/bin/python' '/home/maxi/esp/v5.5.1/esp-idf/tools/idf.py' '-p' '/dev/ttyUSB0'
+[0;33m--- esp-idf-monitor 1.8.0 on /dev/ttyUSB0 115200[0m
+[0;33m--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m--- Warning: Failed to run gdb_panic_server.py script: Command '['riscv32-esp-elf-gdb', '--batch', '-n', '/home/maxi/git/berkeley/course-project/input-system/build/blink.elf', '-ex', 'add-symbol-file /home/maxi/git/berkeley/course-project/input-system/build/bootloader/bootloader.elf', '-ex', 'target remote | "/home/maxi/.espressif/python_env/idf5.5_py3.13_env/bin/python" -m esp_idf_panic_decoder --target esp32c6 "/tmp/tmp99kqqe66"', '-ex', 'bt']' returned non-zero exit status 1.
+--- Warning: b'add symbol table from file "/home/maxi/git/berkeley/course-project/input-system/build/bootloader/bootloader.elf"\nRemote communication error.  Target disconnected: error while reading: Die Verbindung wurde vom Kommunikationspartner zur\xc3\xbcckgesetzt.\nNo stack.\n'
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m--- Warning: Failed to run gdb_panic_server.py script: Command '['riscv32-esp-elf-gdb', '--batch', '-n', '/home/maxi/git/berkeley/course-project/input-system/build/blink.elf', '-ex', 'add-symbol-file /home/maxi/git/berkeley/course-project/input-system/build/bootloader/bootloader.elf', '-ex', 'target remote | "/home/maxi/.espressif/python_env/idf5.5_py3.13_env/bin/python" -m esp_idf_panic_decoder --target esp32c6 "/tmp/tmpa3kc3rsj"', '-ex', 'bt']' returned non-zero exit status 1.
+--- Warning: b'add symbol table from file "/home/maxi/git/berkeley/course-project/input-system/build/bootloader/bootloader.elf"\nRemote communication error.  Target disconnected: error while reading: Die Verbindung wurde vom Kommunikationspartner zur\xc3\xbcckgesetzt.\nNo stack.\n'
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m--- Warning: Failed to run gdb_panic_server.py script: Command '['riscv32-esp-elf-gdb', '--batch', '-n', '/home/maxi/git/berkeley/course-project/input-system/build/blink.elf', '-ex', 'add-symbol-file /home/maxi/git/berkeley/course-project/input-system/build/bootloader/bootloader.elf', '-ex', 'target remote | "/home/maxi/.espressif/python_env/idf5.5_py3.13_env/bin/python" -m esp_idf_panic_decoder --target esp32c6 "/tmp/tmpm11v83b1"', '-ex', 'bt']' returned non-zero exit status 1.
+--- Warning: b'add symbol table from file "/home/maxi/git/berkeley/course-project/input-system/build/bootloader/bootloader.elf"\nRemote communication error.  Target disconnected: error while reading: Die Verbindung wurde vom Kommunikationspartner zur\xc3\xbcckgesetzt.\nNo stack.\n'
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m--- Warning: Failed to run gdb_panic_server.py script: Command '['riscv32-esp-elf-gdb', '--batch', '-n', '/home/maxi/git/berkeley/course-project/input-system/build/blink.elf', '-ex', 'add-symbol-file /home/maxi/git/berkeley/course-project/input-system/build/bootloader/bootloader.elf', '-ex', 'target remote | "/home/maxi/.espressif/python_env/idf5.5_py3.13_env/bin/python" -m esp_idf_panic_decoder --target esp32c6 "/tmp/tmp58lsnoam"', '-ex', 'bt']' returned non-zero exit status 1.
+--- Warning: b'add symbol table from file "/home/maxi/git/berkeley/course-project/input-system/build/bootloader/bootloader.elf"\nRemote communication error.  Target disconnected: error while reading: Die Verbindung wurde vom Kommunikationspartner zur\xc3\xbcckgesetzt.\nNo stack.\n'
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0m--- 0x4001975a: [0;33msoftware_reset_cpu[0m[0m in [0;32mROM[0m
+[0m--- 0x4086b910: [0;33mesp_bootloader_get_description[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c[0m[0m:[1;31m39[0m
+[0m--- 0x4086e610: [0;33mesp_flash_encryption_enabled[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader_support/src/flash_encrypt.c[0m[0m:[1;31m89[0m
+[0m--- 0x4086b91a: [0;33mcall_start_cpu0[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m25[0m
+[0m--- 0x42007154: [0;33mapp_main[0m[0m at [0;32m/home/maxi/git/berkeley/course-project/input-system/main/positional-encoding.c[0m[0m:[1;31m148[0m
+[0m--- 0x40805615: [0;33m_esp_error_check_failed[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/esp_err.c[0m[0m:[1;31m49[0m
+[0;33m--- Stack dump detected[0m
+[0m--- 0x40805660: [0;33mpanic_abort[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m483[0m
+[0m--- 0x4080561e: [0;33mesp_vApplicationTickHook[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/esp_system/freertos_hooks.c[0m[0m:[1;31m31[0m
+[0m--- 0x40800001: [0;33m_vector_table[0m[0m at [0;32m/home/maxi/esp/v5.5.1/esp-idf/components/riscv/vectors_intc.S[0m[0m:[1;31m54[0m
+[0m

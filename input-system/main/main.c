@@ -1,12 +1,3 @@
-/**
- * @file main.c
- * @brief Main application demonstrating dual encoder 2D position tracking
- *
- * This application reads two AS5600 magnetic encoders and calculates the
- * end-effector position of a 2-link planar arm using forward kinematics.
- * It includes automatic zero-position calibration on startup.
- */
-
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -14,19 +5,21 @@
 #include "esp_timer.h"
 #include "nvs_flash.h"
 #include "freertos/queue.h"
+
 #include "double-angles-reader.h"
 #include "2d-pos-encoder.h"
 #include "wifi_sta.h"
+#include "tcp_client.h"
 
-// Macros
+
+// macros
 #define ENCODER_READING_STACK_SIZE (4096)
 #define TRANSMITTER_STACK_SIZE (4096)
-#define PACKET_BUFFER_SIZE (128)
+#define PACKET_BUFFER_SIZE (30)
 
 
-// Tags
+// log tags
 static const char *TAG_MAIN = "MAIN";
-static const char *TAG_WIFI = "WIFI";
 static const char *TAG_ENC = "ENC";
 
 
@@ -40,11 +33,10 @@ typedef struct __attribute__((packed)) {
 } packet_t;
 
 
-// Global vars
+// global vars
 QueueHandle_t encoder_reading_queue;
 
 
-// Initialization
 void init_encoders() {
     /* Initialize the dual AS5600 magnetic encoder system
      * Configures I2C communication and checks magnet detection status */
@@ -66,66 +58,47 @@ void init_encoders() {
     ESP_ERROR_CHECK(pos_2d_calibrate_zero_position());
 }
 
-void init_wifi() {
-
-}
-
-
-// Thread tasks
 void encoder_reading_task(void *pvParameters) {
-    TickType_t xLastWakeTime;
-    const TickType_t xFrequency = pdMS_TO_TICKS(10); // Run exactly every 10ms
-
-    // Initialize the xLastWakeTime variable with the current time.
-    xLastWakeTime = xTaskGetTickCount();
+    // run exactly every 10ms
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+    const TickType_t xFrequency = pdMS_TO_TICKS(10);
 
     while (1) {
         float theta1_deg, theta2_deg;
         float pos_x, pos_y;
         
-        // 1. Read Hardware
+        // read encoder
         bool read_success = (double_angles_reader_read_encoder1_degrees(&theta1_deg) == ESP_OK &&
                              double_angles_reader_read_encoder2_degrees(&theta2_deg) == ESP_OK);
         
-        // 2. Local Calculation (Optional: Only if you need X/Y locally)
+        // convert angles to position
         if (read_success) {
             pos_2d_get_position(&pos_x, &pos_y);
         }
 
-        // 3. Prepare Packet
+        // prepare packet
         if (read_success) {
             packet_t packet;
             packet.angle1_deg = theta1_deg;
             packet.angle2_deg = theta2_deg;
             packet.timestamp_us = xTaskGetTickCount() * portTICK_PERIOD_MS; // Current time in ms
 
-            // 4. Send to Queue (Non-blocking: overwrite if full)
-            // We pass the address of 'packet', FreeRTOS copies the data in.
+            // send to queue, overwrite if full
             xQueueSend(encoder_reading_queue, &packet, 0);
             
-            // Log occasionally (logging every 10ms spans the console)
-            static int log_counter = 0;
-            if (log_counter++ > 100) { 
-                ESP_LOGI(TAG_ENC, "TX: T1:%.1f T2:%.1f", theta1_deg, theta2_deg);
-                log_counter = 0;
-            }
+            ESP_LOGI(TAG_ENC, "TX: T1:%.1f T2:%.1f", theta1_deg, theta2_deg);
         } else {
             ESP_LOGE(TAG_ENC, "Encoder Read Fail");
         }
 
-        // 5. Precise Timing
-        // vTaskDelayUntil ensures exactly 10ms period, compensating for calculation time
+        // wait 
         vTaskDelayUntil(&xLastWakeTime, xFrequency);
     }
 
 }
 
-
-
-// Main program loop
-void app_main(void)
-{
-    // 1. Initialize NVS
+void app_main(void) {
+    // initialize nvs
     esp_err_t ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
       ESP_ERROR_CHECK(nvs_flash_erase());
@@ -133,20 +106,20 @@ void app_main(void)
     }
     ESP_ERROR_CHECK(ret);
 
-    // 2. Connect to WiFi (Blocks until connected!)
+    // connect to wifi (blocking)
     wifi_init_sta();
 
-    // 3. Create Queue
-    encoder_reading_queue = xQueueCreate(50, sizeof(packet_t));
+    // create queue
+    encoder_reading_queue = xQueueCreate(PACKET_BUFFER_SIZE, sizeof(packet_t));
 
-    // 4. Initialize Hardware
+    // initialize encoders
     init_encoders();
 
-    // 5. Start Encoder Task
-    xTaskCreate(encoder_reading_task, "EncoderTask", 4096, NULL, 5, NULL);
+    // start encoder thread
+    xTaskCreate(encoder_reading_task, "EncoderTask", 4096, NULL, 10, NULL);
     
-    // 6. Start TCP Sender Task (We will write this next)
-    // xTaskCreate(tcp_sender_task, "TCPTask", 4096, NULL, 3, NULL);
+    // start tcp client thread
+    xTaskCreate(tcp_client_task, "tcp_client", 4096, NULL, 5, NULL);
 
-    ESP_LOGI(TAG_MAIN, "System Started");
+    ESP_LOGI(TAG_MAIN, "system started");
 }

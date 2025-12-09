@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "input_system",
-    "project_version":    "e6e67ce-dirty",
+    "project_version":    "994d5de-dirty",
     "project_path":       "/home/aksel/ucb/cs249a/course-project/input-system",
     "idf_path":           "/home/aksel/esp/v5.4/esp-idf",
     "build_dir":          "/home/aksel/ucb/cs249a/course-project/input-system/build",
@@ -1210,7 +1210,7 @@
             "managed_reqs": [],
             "managed_priv_reqs": [ "espressif__led_strip" ],
             "file": "/home/aksel/ucb/cs249a/course-project/input-system/build/esp-idf/main/libmain.a",
-            "sources": [ "/home/aksel/ucb/cs249a/course-project/input-system/main/main.c", "/home/aksel/ucb/cs249a/course-project/input-system/main/double-angles-reader.c", "/home/aksel/ucb/cs249a/course-project/input-system/main/2d-pos-encoder.c", "/home/aksel/ucb/cs249a/course-project/input-system/main/data-sender.c", "/home/aksel/ucb/cs249a/course-project/input-system/main/wifi_sta.c" ],
+            "sources": [ "/home/aksel/ucb/cs249a/course-project/input-system/main/tcp_client.c", "/home/aksel/ucb/cs249a/course-project/input-system/main/main.c", "/home/aksel/ucb/cs249a/course-project/input-system/main/double-angles-reader.c", "/home/aksel/ucb/cs249a/course-project/input-system/main/2d-pos-encoder.c", "/home/aksel/ucb/cs249a/course-project/input-system/main/data-sender.c", "/home/aksel/ucb/cs249a/course-project/input-system/main/wifi_sta.c" ],
             "include_dirs": [ "." ]
         },
         "mbedtls": {

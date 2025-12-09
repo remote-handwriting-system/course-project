@@ -43,20 +43,9 @@ static esp_err_t select_encoder(encoder_select_t encoder)
         return ESP_OK;  // Already selected
     }
 
-    // Uninstall current I2C driver
-    esp_err_t err = i2c_driver_delete(I2C_MASTER_NUM);
-    if (err != ESP_OK) {
-        ESP_LOGW(TAG, "Warning: i2c_driver_delete returned error 0x%x", err);
-    }
-
-    // Small delay to ensure clean state
-    vTaskDelay(pdMS_TO_TICKS(20));
 
     // Configure for the selected encoder
     int sda_pin = (encoder == ENCODER_1) ? I2C_MASTER_SDA_IO_0 : I2C_MASTER_SDA_IO_1;
-
-    // ESP_LOGI(TAG, "Switching to Encoder %d (SDA=%d, SCL=%d)",
-    //          encoder + 1, sda_pin, I2C_MASTER_SCL_IO);
 
     i2c_config_t conf = {
         .mode = I2C_MODE_MASTER,
@@ -67,24 +56,16 @@ static esp_err_t select_encoder(encoder_select_t encoder)
         .master.clk_speed = I2C_MASTER_FREQ_HZ,
     };
 
-    err = i2c_param_config(I2C_MASTER_NUM, &conf);
+    esp_err_t err = i2c_param_config(I2C_MASTER_NUM, &conf);
     if (err != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to configure I2C for encoder %d (error 0x%x)", encoder + 1, err);
-        return err;
-    }
-
-    err = i2c_driver_install(I2C_MASTER_NUM, conf.mode,
-                            I2C_MASTER_RX_BUF_DISABLE,
-                            I2C_MASTER_TX_BUF_DISABLE, 0);
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to install I2C driver for encoder %d (error 0x%x)", encoder + 1, err);
+        ESP_LOGE(TAG, "Failed to reconfigure I2C for encoder %d (error 0x%x)", encoder + 1, err);
         return err;
     }
 
     current_encoder = encoder;
 
-    // Small delay after switching
-    vTaskDelay(pdMS_TO_TICKS(20));
+    // Small delay after switching to let the line settle (still good practice)
+    vTaskDelay(pdMS_TO_TICKS(1)); // TODO figure out delay
 
     return ESP_OK;
 }

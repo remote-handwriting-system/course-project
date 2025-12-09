@@ -3,7 +3,6 @@
 #include "esp_log.h"
 #include "freertos/event_groups.h"
 
-// --- WIFI CONFIGURATION ---
 #define AP_SSID      "remote-handwriting-system"
 #define AP_PASS      "password"
 

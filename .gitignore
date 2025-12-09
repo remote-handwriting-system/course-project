@@ -1,3 +1,5 @@
+input-system/build/
+output-system/build/
 build/
 sdkconfig/
 .vscode/

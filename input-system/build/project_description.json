@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "input_system",
-    "project_version":    "994d5de-dirty",
+    "project_version":    "b9b10a7-dirty",
     "project_path":       "/home/aksel/ucb/cs249a/course-project/input-system",
     "idf_path":           "/home/aksel/esp/v5.4/esp-idf",
     "build_dir":          "/home/aksel/ucb/cs249a/course-project/input-system/build",

@@ -17,10 +17,10 @@ static const char *TAG = "TCP_CLIENT";
 
 // TODO move to ../components
 typedef struct __attribute__((packed)) {
-    float angle1_deg;
-    float angle2_deg;
+    float pos_x;
+    float pos_y;
     float force;
-    uint32_t timestamp_us; 
+    uint32_t timestamp;
 } packet_t;
 
 
@@ -65,12 +65,12 @@ void tcp_client_task(void *pvParameters) {
 
         ESP_LOGI(TAG, "Successfully connected");
 
-        // transmit loop
+        // Keep connection alive and transmit when data is available
         packet_t packet_to_send;
         while (1) {
-            // wait for data in queue (blocking)
-            if (xQueueReceive(encoder_reading_queue, &packet_to_send, portMAX_DELAY)) {
-                
+            // Try to receive data with timeout (100ms) to keep connection responsive
+            // This allows the connection to stay alive even when not transmitting
+            if (xQueueReceive(encoder_reading_queue, &packet_to_send, pdMS_TO_TICKS(100))) {
                 // send data
                 int err = send(sock, &packet_to_send, sizeof(packet_t), 0);
                 if (err < 0) {
@@ -78,9 +78,11 @@ void tcp_client_task(void *pvParameters) {
                     break; // reconnect
                 }
             }
+            // If no data, loop continues - keeps connection alive
         }
 
         shutdown(sock, 0);
         close(sock);
+        ESP_LOGI(TAG, "Connection closed, attempting to reconnect...");
     }
 }

@@ -1,7 +1,7 @@
 idf_component_register(SRCS "tcp_client.c" "main.c"
                             "double-angles-reader.c"
                             "2d-pos-encoder.c"
-                            "data-sender.c"
+                           
                             "wifi_sta.c"
                             "tcp_client.c"
                        INCLUDE_DIRS "."

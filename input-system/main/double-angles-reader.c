@@ -17,12 +17,13 @@ static const char *TAG = "AS5600";
 
 // I2C Configuration - Single bus, software multiplexed
 // IMPORTANT: Both encoders must share the same SCL line physically!
-// Wire your encoders as follows:
+// Wire the encoders as follows:
 //   Encoder 1: SDA -> GPIO 20, SCL -> GPIO 19
 //   Encoder 2: SDA -> GPIO 21, SCL -> GPIO 19 (shared with Encoder 1)
 #define I2C_MASTER_SCL_IO      19        // GPIO for SCL (shared between both encoders)
 #define I2C_MASTER_SDA_IO_0    20        // GPIO for SDA (Encoder 1)
 #define I2C_MASTER_SDA_IO_1    21        // GPIO for SDA (Encoder 2)
+
 #define I2C_MASTER_NUM         I2C_NUM_0 // I2C port number
 #define I2C_MASTER_FREQ_HZ     400000    // I2C master clock frequency (400kHz)
 #define I2C_MASTER_TX_BUF_DISABLE 0      // I2C master doesn't need buffer

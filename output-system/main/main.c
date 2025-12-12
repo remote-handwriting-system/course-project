@@ -17,7 +17,7 @@
 // macros
 #define LED_PIN 8 
 #define STRIP_GPIO (8)
-#define PACKET_BUFFER_SIZE (1000)
+#define PACKET_BUFFER_SIZE (1)
 
 #define TX_PIN       (2)         
 #define RX_PIN       (3)         
@@ -44,6 +44,7 @@ static const char *TAG_SERVO = "SERVO";
 typedef struct __attribute__((packed)) {
     float x_pos;
     float y_pos;
+    int8_t elbow_sign;
     float force;
     uint32_t timestamp; 
 } packet_t;
@@ -167,8 +168,7 @@ void configure_led(void) {
 }
 
 // This task waits for angle data and updates the LED color
-void servo_task(void *pvParameters)
-{
+void servo_task(void *pvParameters) {
     led_strip_handle_t current_led_strip;
     led_strip_config_t strip_config = {
         .strip_gpio_num = LED_PIN,
@@ -220,7 +220,11 @@ void servo_task(void *pvParameters)
 
             // Calculate Angles in Radians
             // Note: This assumes "Elbow Down" configuration. For Elbow Up, make theta2 negative.
-            float theta2_rad = acosf(cos_theta2);
+            if (rx_packet.elbow_sign > 0) {
+                float theta2_rad = acosf(cos_theta2);
+            } else {
+                float theta2_rad = -acosf(cos_theta2);
+            }
             
             float k1 = arm1_len + arm2_len * cosf(theta2_rad);
             float k2 = arm2_len * sinf(theta2_rad);

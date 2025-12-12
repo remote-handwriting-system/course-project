@@ -30,7 +30,9 @@
 #define INST_WRITE          (0x03)  
 #define ADDR_TORQUE_ENABLE  (0x18)  
 #define ADDR_GOAL_POSITION  (0x1E)  
-
+#define ADDR_MOVING_SPEED   (0x20)
+#define ADDR_CW_COMPLIANCE_SLOPE  (0x1C) // 28
+#define ADDR_CCW_COMPLIANCE_SLOPE (0x1D) // 29
 
 // log tags
 static const char *TAG_MAIN = "MAIN";
@@ -80,6 +82,29 @@ void send_packet_and_check(uint8_t *packet, int packet_len) {
     }
 }
 
+void set_compliance_slope(uint8_t id, uint8_t slope) {
+    // Slope range: 0 (Stiff) to 254 (Very Soft)
+    // Default is usually 32. Try 64 or 128 for smoother stops.
+    
+    // Set CW Slope
+    uint8_t packet1[8];
+    packet1[0] = 0xFF; packet1[1] = 0xFF; packet1[2] = id;
+    packet1[3] = 0x04; packet1[4] = INST_WRITE;
+    packet1[5] = ADDR_CW_COMPLIANCE_SLOPE;
+    packet1[6] = slope;
+    packet1[7] = calculate_checksum(packet1);
+    send_packet_and_check(packet1, 8);
+
+    // Set CCW Slope
+    uint8_t packet2[8];
+    packet2[0] = 0xFF; packet2[1] = 0xFF; packet2[2] = id;
+    packet2[3] = 0x04; packet2[4] = INST_WRITE;
+    packet2[5] = ADDR_CCW_COMPLIANCE_SLOPE;
+    packet2[6] = slope;
+    packet2[7] = calculate_checksum(packet2);
+    send_packet_and_check(packet2, 8);
+}
+
 void set_torque(uint8_t id, uint8_t enable) {
     uint8_t packet[8];
     packet[0] = 0xFF; packet[1] = 0xFF; packet[2] = id;
@@ -97,11 +122,32 @@ void dynamixel_set_position(uint8_t id, uint16_t position) {
     uint8_t pH = (position >> 8) & 0xFF;
 
     uint8_t packet[9];
-    packet[0] = 0xFF; packet[1] = 0xFF; packet[2] = id;
+    packet[0] = 0xFF;
+    packet[1] = 0xFF;
+    packet[2] = id;
     packet[3] = 0x05; // Length
     packet[4] = INST_WRITE;
     packet[5] = ADDR_GOAL_POSITION;
-    packet[6] = pL; packet[7] = pH;
+    packet[6] = pL;
+    packet[7] = pH;
+    packet[8] = calculate_checksum(packet);
+    send_packet_and_check(packet, 9);
+}
+
+void dynamixel_set_speed(uint8_t id, uint16_t speed) {
+    if (speed > 1023) speed = 1023;
+    uint8_t sL = speed & 0xFF;
+    uint8_t sH = (speed >> 8) & 0xFF;
+
+    uint8_t packet[9];
+    packet[0] = 0xFF; 
+    packet[1] = 0xFF; 
+    packet[2] = id;
+    packet[3] = 0x05; // Length
+    packet[4] = INST_WRITE;
+    packet[5] = ADDR_MOVING_SPEED; // Address 32 (0x20)
+    packet[6] = sL; 
+    packet[7] = sH;
     packet[8] = calculate_checksum(packet);
     send_packet_and_check(packet, 9);
 }
@@ -226,6 +272,12 @@ void app_main(void)
     ESP_ERROR_CHECK(uart_set_mode(UART_PORT, UART_MODE_RS485_HALF_DUPLEX));
 
     ESP_LOGI(TAG_SERVO, "System Started. Enabling Torque...");
+
+    set_compliance_slope(1, 180);
+    vTaskDelay(pdMS_TO_TICKS(50)); 
+    set_compliance_slope(2, 180);
+    vTaskDelay(pdMS_TO_TICKS(50)); 
+    set_compliance_slope(2, 180);
 
 
     configure_led();

@@ -23,7 +23,8 @@ static const char *TAG = "TCP_SERVER";
 typedef struct __attribute__((packed)) {
     float angle1_deg;
     float angle2_deg;
-    float force;
+    int8_t elbow_sign;
+    uint16_t force;
     uint32_t timestamp_us; 
 } packet_t;
 
@@ -32,7 +33,6 @@ extern QueueHandle_t servo_queue; // defined in main.c
 
 
 void tcp_server_task(void *pvParameters) {
-    char addr_str[128];
     int addr_family = AF_INET;
     int ip_protocol = 0;
     struct sockaddr_in dest_addr;
@@ -45,8 +45,8 @@ void tcp_server_task(void *pvParameters) {
     while (1) {
 
         int listen_sock = socket(addr_family, SOCK_STREAM, ip_protocol);
-        int err = bind(listen_sock, (struct sockaddr *)&dest_addr, sizeof(dest_addr));
-        err = listen(listen_sock, 1);
+        bind(listen_sock, (struct sockaddr *)&dest_addr, sizeof(dest_addr));
+        listen(listen_sock, 1);
 
         ESP_LOGI(TAG, "Socket listening on port %d", PORT);
 
@@ -57,6 +57,8 @@ void tcp_server_task(void *pvParameters) {
 
         int nodelay = 1;
         setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, &nodelay, sizeof(nodelay));
+        int buf_size = 1024;
+        setsockopt(sock, SOL_SOCKET, SO_RCVBUF, &buf_size, sizeof(buf_size));
 
         ESP_LOGI(TAG, "Client Connected!");
 
@@ -72,7 +74,7 @@ void tcp_server_task(void *pvParameters) {
                 ESP_LOGI(TAG, "Connection closed by client");
                 break;
             } else if (len == sizeof(packet_t)) {
-                BaseType_t result = xQueueSend(servo_queue, &rx_packet, 0);
+                BaseType_t result = xQueueSend(servo_queue, &rx_packet, portMAX_DELAY);
 
                 if (result != pdPASS) {
                     ESP_LOGW(TAG, "Queue full, dropping packet."); 

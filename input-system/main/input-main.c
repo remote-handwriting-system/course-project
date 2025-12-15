@@ -6,8 +6,10 @@
 #include "nvs_flash.h"
 #include "freertos/queue.h"
 #include "driver/gpio.h"
+#include "esp_wifi.h"
 
 #include "double-angles-reader.h"
+#include "force-reader.h"
 #include "2d-pos-encoder.h"
 #include "wifi_sta.h"
 #include "tcp_client.h"
@@ -16,9 +18,10 @@
 // macros
 #define ENCODER_READING_STACK_SIZE (4096)
 #define TRANSMITTER_STACK_SIZE (4096)
-#define PACKET_BUFFER_SIZE (30)
+#define PACKET_BUFFER_SIZE (5)
 #define BOOT_BUTTON_GPIO GPIO_NUM_9
 #define BUTTON_DEBOUNCE_MS 50
+#define ELBOW_SIGN_SWITCH_THRESHOLD_DEG 1
 
 
 // log tags
@@ -38,7 +41,8 @@ typedef enum {
 typedef struct __attribute__((packed)) {
     float pos_x;
     float pos_y;
-    float force;
+    int8_t elbow_sign;
+    uint16_t force;
     uint32_t timestamp;
 } packet_t;
 
@@ -47,6 +51,7 @@ typedef struct __attribute__((packed)) {
 QueueHandle_t encoder_reading_queue;
 volatile system_state_t system_state = STATE_IDLE;
 volatile bool encoders_initialized = false;
+float theta2_bias_deg;
 
 
 void init_encoders() {
@@ -69,7 +74,8 @@ void calibrate_encoders() {
     /* Capture current arm configuration as the zero/home reference position
      * All subsequent position calculations will be relative to this pose */
     ESP_LOGI(TAG_ENC, "Calibrating zero position (set current arm position as straight)...");
-    ESP_ERROR_CHECK(pos_2d_calibrate_zero_position());
+    ESP_ERROR_CHECK(pos_2d_calibrate_zero_position(&theta2_bias_deg));
+
     ESP_LOGI(TAG_ENC, "Calibration complete!");
 }
 
@@ -106,6 +112,8 @@ void button_task(void *pvParameters) {
 
                         // Perform calibration
                         calibrate_encoders();
+                        ESP_LOGI("bias", "%f", theta2_bias_deg);
+                        
 
                         // Transition to transmitting
                         system_state = STATE_TRANSMITTING;
@@ -133,7 +141,7 @@ void button_task(void *pvParameters) {
         last_button_level = current_level;
 
         // Small delay for polling
-        vTaskDelay(pdMS_TO_TICKS(10));
+        vTaskDelay(pdMS_TO_TICKS(30));
     }
 }
 
@@ -160,10 +168,13 @@ void init_button() {
     }
 }
 
+// TODO change name to encoder and 
 void encoder_reading_task(void *pvParameters) {
-    // run exactly every 10ms
     TickType_t xLastWakeTime = xTaskGetTickCount();
-    const TickType_t xFrequency = pdMS_TO_TICKS(10);
+    const TickType_t xFrequency = pdMS_TO_TICKS(100);
+
+    int8_t elbow_sign = 1;
+    uint16_t current_force = 0;
 
     while (1) {
         // Only read and transmit when in TRANSMITTING state
@@ -175,22 +186,46 @@ void encoder_reading_task(void *pvParameters) {
             bool read_success = (double_angles_reader_read_encoder1_degrees(&theta1_deg) == ESP_OK &&
                                  double_angles_reader_read_encoder2_degrees(&theta2_deg) == ESP_OK);
 
+            // read force sensor
+            if (force_reader_read_raw(&current_force) != ESP_OK) {
+                current_force = 0.0f; 
+                ESP_LOGW(TAG_ENC, "Force read failed");
+            }
+
             // prepare packet
             if (read_success) {
                 // convert angles to position
                 pos_2d_get_position(&pos_x, &pos_y);
+                
+                // calculate elbow position
+                float angle_diff = theta2_deg - theta2_bias_deg;
+                if (angle_diff > 180.0f) {
+                    angle_diff -= 360.0f;
+                }
+                if (angle_diff < -180.0f) {
+                    angle_diff += 360.0f;
+                }
+                if (angle_diff > ELBOW_SIGN_SWITCH_THRESHOLD_DEG) {
+                    elbow_sign = 1;
+                } else if (angle_diff < -ELBOW_SIGN_SWITCH_THRESHOLD_DEG) {
+                    elbow_sign = -1;
+                }
 
+                
+
+                // ESP_LOGI("elbow", "%f", theta2_deg);
                 packet_t packet;
                 packet.pos_x = pos_x;
                 packet.pos_y = pos_y;
-                packet.force = 0.0f;  // Placeholder for future force sensor
+                packet.elbow_sign = elbow_sign;
+                packet.force = current_force;
                 packet.timestamp = xTaskGetTickCount() * portTICK_PERIOD_MS; // Current time in ms
 
                 // send to queue, overwrite if full
                 xQueueSend(encoder_reading_queue, &packet, 0);
 
                 // Logging output
-                ESP_LOGI(TAG_ENC, "Pos X: %.2f, Pos Y: %.2f (Angle 1: %.2f°, Angle 2: %.2f°)", pos_x, pos_y, theta1_deg, theta2_deg);
+                ESP_LOGI(TAG_ENC, "Pos X: %.2f, Pos Y: %.2f, force: %d", pos_x, pos_y, current_force);
             } else {
                 ESP_LOGE(TAG_ENC, "Encoder Read Fail");
             }
@@ -215,6 +250,8 @@ void app_main(void) {
 
     // Initialize WiFi and connect (blocking)
     wifi_init_sta();
+    esp_wifi_set_ps(WIFI_PS_NONE);
+
 
     // Create data queue
     encoder_reading_queue = xQueueCreate(PACKET_BUFFER_SIZE, sizeof(packet_t));
@@ -222,6 +259,9 @@ void app_main(void) {
         ESP_LOGE(TAG_MAIN, "Failed to create queue!");
         return;
     }
+
+    // initialize force sensor
+    ESP_ERROR_CHECK(force_reader_init());
 
     // Initialize button GPIO
     init_button();

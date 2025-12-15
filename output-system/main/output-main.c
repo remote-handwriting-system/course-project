@@ -12,12 +12,13 @@
 #include "led_strip.h"
 
 #include "tcp_server.h"
+#include "force-reader.h"
 
 
 // macros
 #define LED_PIN 8 
 #define STRIP_GPIO (8)
-#define PACKET_BUFFER_SIZE (1)
+#define PACKET_BUFFER_SIZE (5)
 
 #define TX_PIN       (2)         
 #define RX_PIN       (3)         
@@ -31,8 +32,10 @@
 #define ADDR_TORQUE_ENABLE  (0x18)  
 #define ADDR_GOAL_POSITION  (0x1E)  
 #define ADDR_MOVING_SPEED   (0x20)
-#define ADDR_CW_COMPLIANCE_SLOPE  (0x1C) // 28
-#define ADDR_CCW_COMPLIANCE_SLOPE (0x1D) // 29
+#define ADDR_CW_COMPLIANCE_SLOPE  (0x1C)
+#define ADDR_CCW_COMPLIANCE_SLOPE (0x1D)
+#define COMPLIANCE_SLOPE (200)
+#define SERVO_END_LIMIT 30
 
 // log tags
 static const char *TAG_MAIN = "MAIN";
@@ -45,7 +48,7 @@ typedef struct __attribute__((packed)) {
     float x_pos;
     float y_pos;
     int8_t elbow_sign;
-    float force;
+    uint16_t force;
     uint32_t timestamp; 
 } packet_t;
 
@@ -167,95 +170,83 @@ void configure_led(void) {
     led_strip_refresh(led_strip);
 }
 
-// This task waits for angle data and updates the LED color
-void servo_task(void *pvParameters) {
-    led_strip_handle_t current_led_strip;
-    led_strip_config_t strip_config = {
-        .strip_gpio_num = LED_PIN,
-        .max_leds = 1, 
-    };
-    led_strip_rmt_config_t rmt_config = {
-        .resolution_hz = 10 * 1000 * 1000, 
-        .flags.with_dma = false,
-    };
-    
-    ESP_ERROR_CHECK(led_strip_new_rmt_device(&strip_config, &rmt_config, &current_led_strip));
-    led_strip_clear(current_led_strip);
 
-    ESP_LOGI(TAG_SERVO, "Color LED Ready on GPIO %d. Waiting for angles...", LED_PIN);
+void servo_task(void *pvParameters) {
+
+    // Persistent State Variables (These keep their value between loop cycles)
+    double current_x = arm1_len+arm2_len;
+    double current_y = 0.0f;
+    int8_t  current_elbow_sign = 1;
+    
+    // Gripper State
+    uint16_t target_force = 0;     // From network
+    uint16_t current_force = 0;    // CHANGED: float -> uint32_t
+    float gripper_pos = 512.0f;    // Current servo position (float for smooth math)
+    
+    // Control Parameters
+    const float PROP_GAIN = 0.5f;         // Proportional Gain (Tune this! High = fast/jittery, Low = slow/smooth)
+    const int FORCE_DEADBAND = 50; // Ignore small force differences
+    const int GRIPPER_MIN = 512 - SERVO_END_LIMIT;
+    const int GRIPPER_MAX = 512 + SERVO_END_LIMIT;
 
     packet_t rx_packet = {0};
-    uint8_t r = 0, g = 0, b = 0;
-    const uint8_t brightness = 50;
-    BaseType_t result;
-    bool packet_received = false;
 
+    force_reader_init();
+
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+    const TickType_t xFrequency = pdMS_TO_TICKS(20); // Run at 50Hz (20ms)
     while (1) {
-        
-        // drain queue
-        packet_received = false;
-        do {
-            // Check for a packet immediately (0 delay)
-            result = xQueueReceive(servo_queue, &rx_packet, 0); 
-            
-            if (result == pdPASS) {
-                packet_received = true;
-            }
-        } while (result == pdPASS); // loop until the queue is empty
-
-        // process data
-        if (packet_received) { 
-            float x_pos = rx_packet.x_pos;
-            float y_pos = rx_packet.y_pos;
-
-            // 1. Math Setup
-            float r_sq = x_pos * x_pos + y_pos * y_pos;
-
-            // 2. Inverse Kinematics (Law of Cosines)
-            float cos_theta2 = (r_sq - arm1_len * arm1_len - arm2_len * arm2_len) / (2.0f * arm1_len * arm2_len);
-
-            // Safety: Clamp value to [-1, 1] to prevent NaN errors if target is slightly out of reach
-            if (cos_theta2 > 1.0f) cos_theta2 = 1.0f;
-            if (cos_theta2 < -1.0f) cos_theta2 = -1.0f;
-
-            // Calculate Angles in Radians
-            // Note: This assumes "Elbow Down" configuration. For Elbow Up, make theta2 negative.
-            if (rx_packet.elbow_sign > 0) {
-                float theta2_rad = acosf(cos_theta2);
-            } else {
-                float theta2_rad = -acosf(cos_theta2);
-            }
-            
-            float k1 = arm1_len + arm2_len * cosf(theta2_rad);
-            float k2 = arm2_len * sinf(theta2_rad);
-            float theta1_rad = atan2f(y_pos, x_pos) - atan2f(k2, k1);
-
-            // 3. Convert Radians to Dynamixel Units (0-1023)
-            // RX-24F Range: 0 to 300 degrees. Center (512) is 150 degrees.
-            // Factor: 1023 units / 300 degrees = ~3.41 units per degree
-            // Radians to Degrees: * 57.2957795
-            
-            // Convert to degrees
-            float theta1_deg = theta1_rad * (180.0f / M_PI);
-            float theta2_deg = theta2_rad * (180.0f / M_PI);
-
-            // Map to Servo Values (assuming 0 rad = Center/512)
-            // Note: You might need to change the +/- depending on your motor mounting direction!
-            int servo_val_1 = 512 + (int)(theta1_deg * 3.41f);
-            int servo_val_2 = 512 + (int)(theta2_deg * 3.41f);
-
-            // 4. Send to Servos (Constraints check included)
-            if (servo_val_1 < 0) servo_val_1 = 0;
-            if (servo_val_1 > 1023) servo_val_1 = 1023;
-            if (servo_val_2 < 0) servo_val_2 = 0;
-            if (servo_val_2 > 1023) servo_val_2 = 1023;
-
-            // Send the commands
-            dynamixel_set_position(1, servo_val_1); // ID 1 = Shoulder
-            dynamixel_set_position(2, servo_val_2); // ID 2 = Elbow
+        // check for network packet
+        if (xQueueReceive(servo_queue, &rx_packet, 0) == pdPASS) {
+            ESP_LOGI(TAG_SERVO, "packet received");
+            current_x = rx_packet.x_pos;
+            current_y = rx_packet.y_pos;
+            current_elbow_sign = rx_packet.elbow_sign;
+            target_force = rx_packet.force;
         }
 
-        vTaskDelay(pdMS_TO_TICKS(20)); 
+        // inverse kinematics
+        float cos_theta2 = (pow(current_x, 2.0f) + pow(current_y, 2.0f) - 
+                           pow((double) arm1_len, 2.0f) -
+                           pow((double) arm2_len, 2.0f)) /
+                           (2.0f * arm1_len * arm2_len);
+
+        if (cos_theta2 > 1.0f) cos_theta2 = 1.0f;
+        if (cos_theta2 < -1.0f) cos_theta2 = -1.0f;
+
+        float theta2_rad = (current_elbow_sign > 0) ? acosf(cos_theta2) : -acosf(cos_theta2);
+        int servo_val_elbow = 512 + (int)(theta2_rad * 195.57f);
+
+        float k1 = arm1_len + arm2_len * cosf(theta2_rad);
+        float k2 = arm2_len * sinf(theta2_rad);
+        float theta1_rad = atan2f(current_y, current_x) - atan2f(k2, k1);
+        int servo_val_shoulder = 512 + (int)(theta1_rad * 195.57f);
+
+        if (servo_val_elbow < 0) servo_val_elbow = 0;
+        if (servo_val_elbow > 1023) servo_val_elbow = 1023;
+        if (servo_val_shoulder < 0) servo_val_shoulder = 0;
+        if (servo_val_shoulder > 1023) servo_val_shoulder = 1023;
+
+        // force feedback loop
+        force_reader_read_raw(&current_force); 
+        
+        ESP_LOGI(TAG_SERVO, "received force: %d", target_force);
+        ESP_LOGI(TAG_SERVO, "sensed force:   %d", current_force);
+
+        float error = target_force - (float)current_force;
+
+        if (fabs(error) > FORCE_DEADBAND) {
+            gripper_pos += (error * PROP_GAIN);
+        }
+        if (gripper_pos > GRIPPER_MAX) gripper_pos = GRIPPER_MAX;
+        if (gripper_pos < GRIPPER_MIN) gripper_pos = GRIPPER_MIN;
+
+        // drive servos
+        dynamixel_set_position(1, servo_val_shoulder);
+        dynamixel_set_position(2, servo_val_elbow);
+        dynamixel_set_position(3, (int)gripper_pos);
+
+        vTaskDelayUntil(&xLastWakeTime, xFrequency);
     }
 }
 
@@ -277,11 +268,12 @@ void app_main(void)
 
     ESP_LOGI(TAG_SERVO, "System Started. Enabling Torque...");
 
-    set_compliance_slope(1, 180);
+    // init servos2
+    set_compliance_slope(1, COMPLIANCE_SLOPE);
     vTaskDelay(pdMS_TO_TICKS(50)); 
-    set_compliance_slope(2, 180);
+    set_compliance_slope(2, COMPLIANCE_SLOPE);
     vTaskDelay(pdMS_TO_TICKS(50)); 
-    set_compliance_slope(2, 180);
+    set_compliance_slope(2, COMPLIANCE_SLOPE);
 
 
     configure_led();
@@ -307,75 +299,3 @@ void app_main(void)
 
     ESP_LOGI(TAG_MAIN, "System Initialization Complete.");
 }
-
-
-
-
-
-
-
-
-
-
-
-// WIGGLE ARM
-// --- Wiggle Helper ---
-// Moves a servo to Center (512) -> +30 -> -30 -> Center
-// void wiggle_servo(uint8_t id) {
-//     ESP_LOGI(TAG, "Wiggling Servo ID: %d", id);
-    
-//     // 1. Move slightly Right (550)
-//     set_position(id, 550);
-//     vTaskDelay(pdMS_TO_TICKS(250)); // Fast wiggle
-
-//     // 2. Move slightly Left (474)
-//     set_position(id, 474);
-//     vTaskDelay(pdMS_TO_TICKS(250));
-
-//     // 3. Return to Center (512)
-//     set_position(id, 512);
-//     vTaskDelay(pdMS_TO_TICKS(250));
-// }
-
-// void app_main(void)
-// {
-//     // 1. UART Init
-//     uart_config_t uart_config = {
-//         .baud_rate = BAUD_RATE,
-//         .data_bits = UART_DATA_8_BITS,
-//         .parity    = UART_PARITY_DISABLE,
-//         .stop_bits = UART_STOP_BITS_1,
-//         .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
-//         .source_clk = UART_SCLK_DEFAULT,
-//     };
-//     ESP_ERROR_CHECK(uart_driver_install(UART_PORT, BUF_SIZE * 2, 0, 0, NULL, 0));
-//     ESP_ERROR_CHECK(uart_param_config(UART_PORT, &uart_config));
-//     ESP_ERROR_CHECK(uart_set_pin(UART_PORT, TX_PIN, RX_PIN, RTS_PIN, UART_PIN_NO_CHANGE));
-//     ESP_ERROR_CHECK(uart_set_mode(UART_PORT, UART_MODE_RS485_HALF_DUPLEX));
-
-//     ESP_LOGI(TAG, "System Started. Enabling Torque...");
-//     vTaskDelay(pdMS_TO_TICKS(1000));
-
-//     // 2. Enable Torque for all 3 servos
-//     // (We do this once at the start)
-//     set_torque(1, 1);
-//     vTaskDelay(pdMS_TO_TICKS(50));
-//     set_torque(2, 1);
-//     vTaskDelay(pdMS_TO_TICKS(50));
-//     set_torque(3, 1);
-//     vTaskDelay(pdMS_TO_TICKS(50));
-
-//     // 3. Main Sequence Loop
-//     while (1) {
-//         wiggle_servo(1);
-//         vTaskDelay(pdMS_TO_TICKS(500));
-
-//         wiggle_servo(2);
-//         vTaskDelay(pdMS_TO_TICKS(500)); 
-
-//         wiggle_servo(3);
-//         vTaskDelay(pdMS_TO_TICKS(1000)); // Longer pause before restarting sequence
-        
-//         ESP_LOGI(TAG, "Sequence Complete. Repeating...");
-//     }
-// }

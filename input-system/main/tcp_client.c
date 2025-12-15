@@ -1,88 +1,81 @@
+#include "tcp_client.h"
 #include <string.h>
+#include <sys/param.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "freertos/queue.h"
+#include "freertos/event_groups.h"
+#include "esp_system.h"
 #include "esp_log.h"
+#include "lwip/err.h"
 #include "lwip/sockets.h"
 
-
-// macros
-#define HOST_IP_ADDR "192.168.4.1"
-#define PORT 3333
-
-
-// log tags
+// TAG for logging
 static const char *TAG = "TCP_CLIENT";
 
+// External reference to the queue (defined in input-main.c)
+extern QueueHandle_t encoder_reading_queue;
 
-// TODO move to ../components
+// Packet definition (Assuming this matches the struct in input-main.c)
+// Ideally, move this to a shared header file like "common.h"
 typedef struct __attribute__((packed)) {
     float pos_x;
     float pos_y;
-    float force;
+    int8_t elbow_sign;
+    uint16_t force;
     uint32_t timestamp;
 } packet_t;
 
-
-// global vars
-extern QueueHandle_t encoder_reading_queue; // defined in main.c
-
-
-void tcp_client_task(void *pvParameters) {
-    char host_ip[] = HOST_IP_ADDR;
+void tcp_client_task(void *pvParameters)
+{
+    char host_ip[] = "192.168.4.1";
     int addr_family = AF_INET;
     int ip_protocol = IPPROTO_IP;
 
     while (1) {
-        // setup target address
         struct sockaddr_in dest_addr;
         dest_addr.sin_addr.s_addr = inet_addr(host_ip);
         dest_addr.sin_family = AF_INET;
-        dest_addr.sin_port = htons(PORT);
+        dest_addr.sin_port = htons(3333);
 
-        // create socket
         int sock = socket(addr_family, SOCK_STREAM, ip_protocol);
         if (sock < 0) {
             ESP_LOGE(TAG, "Unable to create socket: errno %d", errno);
-            vTaskDelay(1000 / portTICK_PERIOD_MS);
+            vTaskDelay(pdMS_TO_TICKS(1000));
             continue;
         }
 
-        ESP_LOGI(TAG, "Connecting to %s...", host_ip);
+        int nodelay = 1;
+        if (setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, &nodelay, sizeof(nodelay)) < 0) {
+            ESP_LOGE(TAG, "Failed to set TCP_NODELAY: errno %d", errno);
+        }
 
-        // connect (blocking)
-        int err = connect(sock, (struct sockaddr *)&dest_addr, sizeof(dest_addr));
+        ESP_LOGI(TAG, "Socket created, connecting to %s:%d", host_ip, 3333);
+        int err = connect(sock, (struct sockaddr *)&dest_addr, sizeof(struct sockaddr_in6));
         if (err != 0) {
             ESP_LOGE(TAG, "Socket unable to connect: errno %d", errno);
             close(sock);
-            vTaskDelay(1000 / portTICK_PERIOD_MS); // wait before retry
+            vTaskDelay(pdMS_TO_TICKS(1000));
             continue;
         }
-        
-        // optimize latency
-        int nodelay = 1;
-        setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, &nodelay, sizeof(nodelay));
-
         ESP_LOGI(TAG, "Successfully connected");
 
-        // Keep connection alive and transmit when data is available
-        packet_t packet_to_send;
+        packet_t packet;
         while (1) {
-            // Try to receive data with timeout (100ms) to keep connection responsive
-            // This allows the connection to stay alive even when not transmitting
-            if (xQueueReceive(encoder_reading_queue, &packet_to_send, pdMS_TO_TICKS(100))) {
-                // send data
-                int err = send(sock, &packet_to_send, sizeof(packet_t), 0);
+            // Block indefinitely until a packet arrives in the queue
+            if (xQueueReceive(encoder_reading_queue, &packet, portMAX_DELAY) == pdTRUE) {
+                int err = send(sock, &packet, sizeof(packet_t), 0);
                 if (err < 0) {
                     ESP_LOGE(TAG, "Error occurred during sending: errno %d", errno);
-                    break; // reconnect
+                    break; // Break loop to close socket and reconnect
                 }
             }
-            // If no data, loop continues - keeps connection alive
         }
 
-        shutdown(sock, 0);
-        close(sock);
-        ESP_LOGI(TAG, "Connection closed, attempting to reconnect...");
+        if (sock != -1) {
+            ESP_LOGE(TAG, "Shutting down socket and restarting...");
+            shutdown(sock, 0);
+            close(sock);
+        }
     }
+    vTaskDelete(NULL);
 }

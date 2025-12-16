@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_log.h"
@@ -13,70 +14,78 @@
 #include "2d-pos-encoder.h"
 #include "wifi_sta.h"
 #include "tcp_client.h"
+#include "packet.h"
 
 
 // macros
-#define ENCODER_READING_STACK_SIZE (4096)
-#define TRANSMITTER_STACK_SIZE (4096)
-#define PACKET_BUFFER_SIZE (5)
-#define BOOT_BUTTON_GPIO GPIO_NUM_9
-#define BUTTON_DEBOUNCE_MS 50
+#define ENCODER_READING_STACK_SIZE      4096
+#define TRANSMITTER_STACK_SIZE          4096
+#define PACKET_BUFFER_SIZE              5
+#define BOOT_BUTTON_GPIO                GPIO_NUM_9
+#define BUTTON_DEBOUNCE_MS              50
 #define ELBOW_SIGN_SWITCH_THRESHOLD_DEG 1
+#define ARM1_LEN                        72.0f
+#define ARM2_LEN                        72.0f
+#define TAG_MAIN                        "MAIN"
+#define TAG_ENC                         "ENC"
+#define TAG_BTN                         "BUTTON"
 
 
-// log tags
-static const char *TAG_MAIN = "MAIN";
-static const char *TAG_ENC = "ENC";
-static const char *TAG_BTN = "BUTTON";
-
-
-// system state
+// types
 typedef enum {
-    STATE_IDLE,           // Waiting for first button press
-    STATE_CALIBRATING,    // Performing calibration
-    STATE_TRANSMITTING    // Actively transmitting data
+    STATE_IDLE,
+    STATE_CALIBRATING,
+    STATE_TRANSMITTING
 } system_state_t;
 
 
-typedef struct __attribute__((packed)) {
-    float pos_x;
-    float pos_y;
-    int8_t elbow_sign;
-    uint16_t force;
-    uint32_t timestamp;
-} packet_t;
-
-
 // global vars
-QueueHandle_t encoder_reading_queue;
+QueueHandle_t packet_queue;
 volatile system_state_t system_state = STATE_IDLE;
 volatile bool encoders_initialized = false;
 float theta2_bias_deg;
 
 
 void init_encoders() {
-    /* Initialize the dual AS5600 magnetic encoder system
-     * Configures I2C communication and checks magnet detection status */
+    // configures I2C communication
     ESP_ERROR_CHECK(double_angles_reader_init());
 
-    /* Initialize 2D position encoder with physical arm segment lengths
-     * Units can be mm, cm, inches, etc. - just keep them consistent
-     * Example configuration: first arm = 100mm, second arm = 80mm */
-    ESP_ERROR_CHECK(pos_2d_init(72.0f, 72.0f));
+    // initialize 2D position with physical arm segment lengths
+    ESP_ERROR_CHECK(pos_2d_init(ARM1_LEN, ARM2_LEN));
 }
 
 void calibrate_encoders() {
-    /* Allow mechanical system to settle before capturing calibration reference
-     * This ensures stable encoder readings for accurate zero-position setup */
-    ESP_LOGI(TAG_ENC, "Waiting 3 seconds before calibration...");
-    vTaskDelay(pdMS_TO_TICKS(3000));
+    ESP_LOGI(TAG_ENC, "Waiting 2 seconds before calibration...");
+    vTaskDelay(pdMS_TO_TICKS(2000));
 
-    /* Capture current arm configuration as the zero/home reference position
-     * All subsequent position calculations will be relative to this pose */
+    // Capture current arm configuration as the zero/home reference position
     ESP_LOGI(TAG_ENC, "Calibrating zero position (set current arm position as straight)...");
     ESP_ERROR_CHECK(pos_2d_calibrate_zero_position(&theta2_bias_deg));
 
-    ESP_LOGI(TAG_ENC, "Calibration complete!");
+    ESP_LOGI(TAG_ENC, "Calibration complete");
+}
+
+void init_button() {
+    ESP_LOGI(TAG_BTN, "Initializing button on GPIO %d", BOOT_BUTTON_GPIO);
+
+    // Configure button GPIO (no interrupt, polling only)
+    gpio_config_t io_conf = {
+        .intr_type = GPIO_INTR_DISABLE,      // No interrupt needed for polling
+        .mode = GPIO_MODE_INPUT,
+        .pin_bit_mask = (1ULL << BOOT_BUTTON_GPIO),
+        .pull_down_en = GPIO_PULLDOWN_DISABLE,
+        .pull_up_en = GPIO_PULLUP_ENABLE     // Enable internal pull-up
+    };
+    esp_err_t ret = gpio_config(&io_conf);
+    if (ret != ESP_OK) {
+        ESP_LOGE(TAG_BTN, "Failed to configure GPIO: %s", esp_err_to_name(ret));
+    } else {
+        ESP_LOGI(TAG_BTN, "GPIO configured successfully");
+
+        // Read initial button state for debugging
+        int level = gpio_get_level(BOOT_BUTTON_GPIO);
+        ESP_LOGI(TAG_BTN, "Initial button state: %d (0=pressed, 1=released)", level);
+    }
 }
 
 void button_task(void *pvParameters) {
@@ -131,7 +140,7 @@ void button_task(void *pvParameters) {
                         system_state = STATE_IDLE;
 
                         // Clear the queue to stop sending old data
-                        xQueueReset(encoder_reading_queue);
+                        xQueueReset(packet_queue);
                         ESP_LOGI(TAG_BTN, "Transmission stopped. System IDLE.");
                         break;
                 }
@@ -145,31 +154,7 @@ void button_task(void *pvParameters) {
     }
 }
 
-void init_button() {
-    ESP_LOGI(TAG_BTN, "Initializing button on GPIO %d", BOOT_BUTTON_GPIO);
-
-    // Configure button GPIO (no interrupt, polling only)
-    gpio_config_t io_conf = {
-        .intr_type = GPIO_INTR_DISABLE,      // No interrupt needed for polling
-        .mode = GPIO_MODE_INPUT,
-        .pin_bit_mask = (1ULL << BOOT_BUTTON_GPIO),
-        .pull_down_en = GPIO_PULLDOWN_DISABLE,
-        .pull_up_en = GPIO_PULLUP_ENABLE     // Enable internal pull-up
-    };
-    esp_err_t ret = gpio_config(&io_conf);
-    if (ret != ESP_OK) {
-        ESP_LOGE(TAG_BTN, "Failed to configure GPIO: %s", esp_err_to_name(ret));
-    } else {
-        ESP_LOGI(TAG_BTN, "GPIO configured successfully");
-
-        // Read initial button state for debugging
-        int level = gpio_get_level(BOOT_BUTTON_GPIO);
-        ESP_LOGI(TAG_BTN, "Initial button state: %d (0=pressed, 1=released)", level);
-    }
-}
-
-// TODO change name to encoder and 
-void encoder_reading_task(void *pvParameters) {
+void input_reading_task(void *pvParameters) {
     TickType_t xLastWakeTime = xTaskGetTickCount();
     const TickType_t xFrequency = pdMS_TO_TICKS(100);
 
@@ -177,23 +162,19 @@ void encoder_reading_task(void *pvParameters) {
     uint16_t current_force = 0;
 
     while (1) {
-        // Only read and transmit when in TRANSMITTING state
         if (system_state == STATE_TRANSMITTING && encoders_initialized) {
             float theta1_deg, theta2_deg;
             float pos_x, pos_y;
 
             // read encoder
-            bool read_success = (double_angles_reader_read_encoder1_degrees(&theta1_deg) == ESP_OK &&
+            bool encoder_read_success = (double_angles_reader_read_encoder1_degrees(&theta1_deg) == ESP_OK &&
                                  double_angles_reader_read_encoder2_degrees(&theta2_deg) == ESP_OK);
 
             // read force sensor
-            if (force_reader_read_raw(&current_force) != ESP_OK) {
-                current_force = 0.0f; 
-                ESP_LOGW(TAG_ENC, "Force read failed");
-            }
+            bool force_read_success = (force_reader_read_raw(&current_force) == ESP_OK);
 
             // prepare packet
-            if (read_success) {
+            if (encoder_read_success && force_read_success) {
                 // convert angles to position
                 pos_2d_get_position(&pos_x, &pos_y);
                 
@@ -211,9 +192,6 @@ void encoder_reading_task(void *pvParameters) {
                     elbow_sign = -1;
                 }
 
-                
-
-                // ESP_LOGI("elbow", "%f", theta2_deg);
                 packet_t packet;
                 packet.pos_x = pos_x;
                 packet.pos_y = pos_y;
@@ -222,12 +200,19 @@ void encoder_reading_task(void *pvParameters) {
                 packet.timestamp = xTaskGetTickCount() * portTICK_PERIOD_MS; // Current time in ms
 
                 // send to queue, overwrite if full
-                xQueueSend(encoder_reading_queue, &packet, 0);
+                xQueueSend(packet_queue, &packet, 0);
 
-                // Logging output
+                // logging
                 ESP_LOGI(TAG_ENC, "Pos X: %.2f, Pos Y: %.2f, force: %d", pos_x, pos_y, current_force);
-            } else {
-                ESP_LOGE(TAG_ENC, "Encoder Read Fail");
+            }
+            if (!encoder_read_success){
+                ESP_LOGE(TAG_ENC, "Encoder read fail");
+            }
+            if (!force_read_success){
+                // reset force
+                current_force = 0.0f; 
+
+                ESP_LOGE(TAG_ENC, "Force read fail");
             }
         }
 
@@ -248,34 +233,22 @@ void app_main(void) {
 
     ESP_LOGI(TAG_MAIN, "Initializing system...");
 
-    // Initialize WiFi and connect (blocking)
+    // initialize WiFi and connect (blocking)
     wifi_init_sta();
     esp_wifi_set_ps(WIFI_PS_NONE);
-
-
-    // Create data queue
-    encoder_reading_queue = xQueueCreate(PACKET_BUFFER_SIZE, sizeof(packet_t));
-    if (encoder_reading_queue == NULL) {
-        ESP_LOGE(TAG_MAIN, "Failed to create queue!");
-        return;
-    }
 
     // initialize force sensor
     ESP_ERROR_CHECK(force_reader_init());
 
-    // Initialize button GPIO
+    // initialize button GPIO
     init_button();
 
-    // Create button task (polling-based, no ISR needed)
-    BaseType_t task_created = xTaskCreate(button_task, "ButtonTask", 2048, NULL, 12, NULL);
-    if (task_created != pdPASS) {
-        ESP_LOGE(TAG_MAIN, "Failed to create button task!");
-        return;
-    }
-    ESP_LOGI(TAG_MAIN, "Button task created (polling mode)");
+    // create data queue
+    packet_queue = xQueueCreate(PACKET_BUFFER_SIZE, sizeof(packet_t));
 
-    // Start encoder reading and TCP client tasks
-    xTaskCreate(encoder_reading_task, "EncoderTask", 4096, NULL, 10, NULL);
+    // start threads
+    xTaskCreate(button_task, "ButtonTask", 2048, NULL, 12, NULL);
+    xTaskCreate(input_reading_task, "EncoderTask", 4096, NULL, 10, NULL);
     xTaskCreate(tcp_client_task, "tcp_client", 4096, NULL, 5, NULL);
 
     ESP_LOGI(TAG_MAIN, "========================================");

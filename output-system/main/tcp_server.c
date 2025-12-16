@@ -1,5 +1,6 @@
 #include <string.h>
 #include <sys/param.h>
+
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_system.h"
@@ -8,28 +9,16 @@
 #include "lwip/sockets.h"
 #include "lwip/sys.h"
 
-// #include "packet.h" 
+#include "packet.h" 
 
 
 // macros
 #define PORT 3333
+#define TAG  "TCP_SERVER"
 
 
-// log tags
-static const char *TAG = "TCP_SERVER";
-
-
-// TODO move to ../components
-typedef struct __attribute__((packed)) {
-    float angle1_deg;
-    float angle2_deg;
-    int8_t elbow_sign;
-    uint16_t force;
-    uint32_t timestamp_us; 
-} packet_t;
-
-
-extern QueueHandle_t servo_queue; // defined in main.c
+// global vars
+extern QueueHandle_t packet_queue; // defined in main.c
 
 
 void tcp_server_task(void *pvParameters) {
@@ -74,7 +63,7 @@ void tcp_server_task(void *pvParameters) {
                 ESP_LOGI(TAG, "Connection closed by client");
                 break;
             } else if (len == sizeof(packet_t)) {
-                BaseType_t result = xQueueSend(servo_queue, &rx_packet, portMAX_DELAY);
+                BaseType_t result = xQueueSend(packet_queue, &rx_packet, portMAX_DELAY);
 
                 if (result != pdPASS) {
                     ESP_LOGW(TAG, "Queue full, dropping packet."); 

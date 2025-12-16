@@ -8,8 +8,8 @@ static const char *TAG = "2D_POS";
 
 // System configuration and state variables
 static bool initialized = false;
-static float arm1_len = 0.0f;
-static float arm2_len = 0.0f;
+static float ARM1_LEN = 0.0f;
+static float ARM2_LEN = 0.0f;
 
 // Angular bias offsets for zero-position calibration (stored in radians)
 static float bias1_rad = 0.0f;
@@ -22,11 +22,11 @@ esp_err_t pos_2d_init(float arm1_length, float arm2_length)
         return ESP_ERR_INVALID_ARG;
     }
 
-    arm1_len = arm1_length;
-    arm2_len = arm2_length;
+    ARM1_LEN = arm1_length;
+    ARM2_LEN = arm2_length;
     initialized = true;
 
-    ESP_LOGI(TAG, "2D position encoder initialized: arm1=%.2f, arm2=%.2f", arm1_len, arm2_len);
+    ESP_LOGI(TAG, "2D position encoder initialized: arm1=%.2f, arm2=%.2f", ARM1_LEN, ARM2_LEN);
 
     return ESP_OK;
 }
@@ -66,8 +66,8 @@ esp_err_t pos_2d_get_position(float *pos_x, float *pos_y)
     // Forward kinematics for 2-link planar arm
     // x = L1*cos(θ1) + L2*cos(θ1 + θ2)
     // y = L1*sin(θ1) + L2*sin(θ1 + θ2)
-    *pos_x = arm1_len * cosf(theta1_rad) + arm2_len * cosf(theta1_rad + theta2_rad);
-    *pos_y = arm1_len * sinf(theta1_rad) + arm2_len * sinf(theta1_rad + theta2_rad);
+    *pos_x = ARM1_LEN * cosf(theta1_rad) + ARM2_LEN * cosf(theta1_rad + theta2_rad);
+    *pos_y = ARM1_LEN * sinf(theta1_rad) + ARM2_LEN * sinf(theta1_rad + theta2_rad);
 
     return ESP_OK;
 }
@@ -84,8 +84,8 @@ esp_err_t pos_2d_get_arm_lengths(float *arm1_length, float *arm2_length)
         return ESP_ERR_INVALID_ARG;
     }
 
-    *arm1_length = arm1_len;
-    *arm2_length = arm2_len;
+    *arm1_length = ARM1_LEN;
+    *arm2_length = ARM2_LEN;
 
     return ESP_OK;
 }
@@ -97,10 +97,10 @@ esp_err_t pos_2d_set_arm_lengths(float arm1_length, float arm2_length)
         return ESP_ERR_INVALID_ARG;
     }
 
-    arm1_len = arm1_length;
-    arm2_len = arm2_length;
+    ARM1_LEN = arm1_length;
+    ARM2_LEN = arm2_length;
 
-    ESP_LOGI(TAG, "Arm lengths updated: arm1=%.2f, arm2=%.2f", arm1_len, arm2_len);
+    ESP_LOGI(TAG, "Arm lengths updated: arm1=%.2f, arm2=%.2f", ARM1_LEN, ARM2_LEN);
 
     return ESP_OK;
 }

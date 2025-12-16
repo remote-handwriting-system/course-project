@@ -1,9 +1,9 @@
 #ifndef PACKET_H
 #define PACKET_H
 
+#include <stdint.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
-#include <stdint.h>
 
 typedef struct __attribute__((packed)) {
     float pos_x;

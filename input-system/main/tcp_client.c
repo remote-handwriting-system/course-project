@@ -1,6 +1,7 @@
 #include "tcp_client.h"
 #include <string.h>
 #include <sys/param.h>
+
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
@@ -9,21 +10,16 @@
 #include "lwip/err.h"
 #include "lwip/sockets.h"
 
-// TAG for logging
-static const char *TAG = "TCP_CLIENT";
+#include "packet.h"
 
-// External reference to the queue (defined in input-main.c)
-extern QueueHandle_t encoder_reading_queue;
 
-// Packet definition (Assuming this matches the struct in input-main.c)
-// Ideally, move this to a shared header file like "common.h"
-typedef struct __attribute__((packed)) {
-    float pos_x;
-    float pos_y;
-    int8_t elbow_sign;
-    uint16_t force;
-    uint32_t timestamp;
-} packet_t;
+// macros
+#define TAG "TCP_CLIENT"
+
+
+// global vars
+extern QueueHandle_t packet_queue; // defined in input-main.c
+
 
 void tcp_client_task(void *pvParameters)
 {
@@ -61,12 +57,12 @@ void tcp_client_task(void *pvParameters)
 
         packet_t packet;
         while (1) {
-            // Block indefinitely until a packet arrives in the queue
-            if (xQueueReceive(encoder_reading_queue, &packet, portMAX_DELAY) == pdTRUE) {
+            // block indefinitely until a packet arrives in the queue
+            if (xQueueReceive(packet_queue, &packet, portMAX_DELAY) == pdTRUE) {
                 int err = send(sock, &packet, sizeof(packet_t), 0);
                 if (err < 0) {
                     ESP_LOGE(TAG, "Error occurred during sending: errno %d", errno);
-                    break; // Break loop to close socket and reconnect
+                    break; // break loop to close socket and reconnect
                 }
             }
         }

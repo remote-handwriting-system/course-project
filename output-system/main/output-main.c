@@ -36,7 +36,7 @@
 #define ADDR_MOVING_SPEED         0x20
 #define ADDR_CW_COMPLIANCE_SLOPE  0x1C
 #define ADDR_CCW_COMPLIANCE_SLOPE 0x1D
-#define COMPLIANCE_SLOPE          200
+#define COMPLIANCE_SLOPE          0
 #define SERVO_MIDPOINT            512
 #define END_SERVO_LIMIT           576 // physical max is 592
 #define ARM1_LEN                  72.0f
@@ -165,6 +165,19 @@ void dynamixel_set_speed(uint8_t id, uint16_t speed) {
     send_packet_and_check(packet, 9);
 }
 
+void init_servos() {
+    set_torque(1, 1); vTaskDelay(pdMS_TO_TICKS(10)); 
+    set_torque(2, 1); vTaskDelay(pdMS_TO_TICKS(10)); 
+    set_torque(3, 1); vTaskDelay(pdMS_TO_TICKS(10));
+    dynamixel_set_position(1, 400), vTaskDelay(pdMS_TO_TICKS(10));
+    dynamixel_set_position(2, 400), vTaskDelay(pdMS_TO_TICKS(10));
+    // dynamixel_set_position(3, 400), vTaskDelay(pdMS_TO_TICKS(10));
+    set_compliance_slope(1, COMPLIANCE_SLOPE); vTaskDelay(pdMS_TO_TICKS(10)); 
+    set_compliance_slope(2, COMPLIANCE_SLOPE); vTaskDelay(pdMS_TO_TICKS(10)); 
+    set_compliance_slope(3, COMPLIANCE_SLOPE); // TODO determine this
+
+}
+
 void servo_task(void *pvParameters) {
     double current_x = ARM1_LEN+ARM2_LEN;
     double current_y = 0.0f;
@@ -234,7 +247,7 @@ void servo_task(void *pvParameters) {
             end_effector_pos = SERVO_MIDPOINT;
         }
 
-        if (cnt >= 20) {
+        if (cnt >= 10) {
             cnt = 0;
             ESP_LOGI(TAG_SERVO, "target force:   %d", target_force);
             ESP_LOGI(TAG_SERVO, "sensed force:   %d", current_force);
@@ -257,7 +270,7 @@ void servo_task(void *pvParameters) {
         // ESP_LOGI(TAG_SERVO, "540");
         // vTaskDelay(pdMS_TO_TICKS(1000));
 
-        vTaskDelayUntil(&xLastWakeTime, xFrequency);
+        // vTaskDelayUntil(&xLastWakeTime, xFrequency);
     }
 }
 
@@ -270,15 +283,9 @@ void app_main(void)
 
     ESP_LOGI(TAG_SERVO, "System Started. Enabling Torque...");
 
-    // init servos
-    set_torque(1, 1); vTaskDelay(pdMS_TO_TICKS(10)); 
-    set_torque(2, 1); vTaskDelay(pdMS_TO_TICKS(10)); 
-    set_torque(3, 1); vTaskDelay(pdMS_TO_TICKS(10));
-    set_compliance_slope(1, COMPLIANCE_SLOPE); vTaskDelay(pdMS_TO_TICKS(10)); 
-    set_compliance_slope(2, COMPLIANCE_SLOPE); vTaskDelay(pdMS_TO_TICKS(10)); 
-    set_compliance_slope(3, 0);
+    init_servos();
 
-    configure_led();
+    // configure_led();
 
     packet_queue = xQueueCreate(PACKET_BUFFER_SIZE, sizeof(packet_t));
 

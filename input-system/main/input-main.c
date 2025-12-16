@@ -150,7 +150,7 @@ void button_task(void *pvParameters) {
         last_button_level = current_level;
 
         // Small delay for polling
-        vTaskDelay(pdMS_TO_TICKS(30));
+        vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
 

@@ -197,7 +197,7 @@ void input_reading_task(void *pvParameters) {
                 packet.pos_y = pos_y;
                 packet.elbow_sign = elbow_sign;
                 packet.force = current_force;
-                packet.timestamp = xTaskGetTickCount() * portTICK_PERIOD_MS; // Current time in ms
+                packet.timestamp = xTaskGetTickCount() * portTICK_PERIOD_MS;
 
                 // send to queue, overwrite if full
                 xQueueSend(packet_queue, &packet, 0);

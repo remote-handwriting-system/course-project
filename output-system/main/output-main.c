@@ -37,7 +37,8 @@
 #define ADDR_CW_COMPLIANCE_SLOPE  0x1C
 #define ADDR_CCW_COMPLIANCE_SLOPE 0x1D
 #define COMPLIANCE_SLOPE          200
-#define SERVO_END_LIMIT           30
+#define SERVO_MIDPOINT            512
+#define END_SERVO_LIMIT           576 // physical max is 592
 #define ARM1_LEN                  72.0f
 #define ARM2_LEN                  72.0f
 
@@ -170,13 +171,11 @@ void servo_task(void *pvParameters) {
     int8_t  current_elbow_sign = 1;
     uint16_t target_force = 0;
     uint16_t current_force = 0;
-    float gripper_pos = 512.0f;
+    uint16_t end_effector_pos = SERVO_MIDPOINT;
     
     // control parameters
-    const float PROP_GAIN = 0.5f; // higher -> more jitter
-    const int FORCE_DEADBAND = 50;
-    const int GRIPPER_MIN = 512 - SERVO_END_LIMIT;
-    const int GRIPPER_MAX = 512 + SERVO_END_LIMIT;
+    const float PROP_GAIN = 0.05f; // higher -> more jitter
+    const int FORCE_DEADBAND = 5;
 
     packet_t rx_packet = {0};
 
@@ -184,10 +183,12 @@ void servo_task(void *pvParameters) {
 
     TickType_t xLastWakeTime = xTaskGetTickCount();
     const TickType_t xFrequency = pdMS_TO_TICKS(20); // Run at 50Hz (20ms)
+    //placeholder
+    uint64_t cnt = 0;
     while (1) {
         // check for network packet
         if (xQueueReceive(packet_queue, &rx_packet, 0) == pdPASS) {
-            ESP_LOGI(TAG_SERVO, "packet received");
+            // ESP_LOGI(TAG_SERVO, "packet received");
             current_x = rx_packet.pos_x;
             current_y = rx_packet.pos_y;
             current_elbow_sign = rx_packet.elbow_sign;
@@ -204,36 +205,57 @@ void servo_task(void *pvParameters) {
         if (cos_theta2 < -1.0f) cos_theta2 = -1.0f;
 
         float theta2_rad = (current_elbow_sign > 0) ? acosf(cos_theta2) : -acosf(cos_theta2);
-        int servo_val_elbow = 512 + (int)(theta2_rad * 195.57f);
+        int servo_val_elbow = SERVO_MIDPOINT + (int)(theta2_rad * 195.57f);
 
         float k1 = ARM1_LEN + ARM2_LEN * cosf(theta2_rad);
         float k2 = ARM2_LEN * sinf(theta2_rad);
         float theta1_rad = atan2f(current_y, current_x) - atan2f(k2, k1);
-        int servo_val_shoulder = 512 + (int)(theta1_rad * 195.57f);
+        int servo_val_shoulder = SERVO_MIDPOINT + (int)(theta1_rad * 195.57f);
 
         if (servo_val_elbow < 0) servo_val_elbow = 0;
         if (servo_val_elbow > 1023) servo_val_elbow = 1023;
         if (servo_val_shoulder < 0) servo_val_shoulder = 0;
         if (servo_val_shoulder > 1023) servo_val_shoulder = 1023;
 
-        // force feedback loop
+        // force feedback
         force_reader_read_raw(&current_force); 
-        
-        ESP_LOGI(TAG_SERVO, "received force: %d", target_force);
-        ESP_LOGI(TAG_SERVO, "sensed force:   %d", current_force);
 
-        float error = target_force - (float)current_force;
+        int16_t error = target_force - current_force;
 
-        if (fabs(error) > FORCE_DEADBAND) {
-            gripper_pos += (error * PROP_GAIN);
+        int placeholder = 0;
+        if (abs(error) > FORCE_DEADBAND) {
+            end_effector_pos += (error * PROP_GAIN);
+            placeholder = (error * PROP_GAIN);
         }
-        if (gripper_pos > GRIPPER_MAX) gripper_pos = GRIPPER_MAX;
-        if (gripper_pos < GRIPPER_MIN) gripper_pos = GRIPPER_MIN;
+        if (end_effector_pos > END_SERVO_LIMIT) {
+            end_effector_pos = END_SERVO_LIMIT;
+        }
+        if (end_effector_pos < SERVO_MIDPOINT) {
+            end_effector_pos = SERVO_MIDPOINT;
+        }
 
-        // drive servos
+        if (cnt >= 20) {
+            cnt = 0;
+            ESP_LOGI(TAG_SERVO, "target force:   %d", target_force);
+            ESP_LOGI(TAG_SERVO, "sensed force:   %d", current_force);
+            ESP_LOGI(TAG_SERVO, "error:          %d", error);
+            ESP_LOGI(TAG_SERVO, "end_eff_pos:    %d", end_effector_pos);
+            ESP_LOGI(TAG_SERVO, "change:         %d", placeholder);
+        } else {
+            cnt++;
+        }
+
+        // // drive servos
         dynamixel_set_position(1, servo_val_shoulder);
         dynamixel_set_position(2, servo_val_elbow);
-        dynamixel_set_position(3, (int)gripper_pos);
+        dynamixel_set_position(3, end_effector_pos);
+
+        // dynamixel_set_position(3, 512);
+        // ESP_LOGI(TAG_SERVO, "512");
+        // vTaskDelay(pdMS_TO_TICKS(1000));
+        // dynamixel_set_position(3, 576);
+        // ESP_LOGI(TAG_SERVO, "540");
+        // vTaskDelay(pdMS_TO_TICKS(1000));
 
         vTaskDelayUntil(&xLastWakeTime, xFrequency);
     }
@@ -248,13 +270,13 @@ void app_main(void)
 
     ESP_LOGI(TAG_SERVO, "System Started. Enabling Torque...");
 
-    // init servos2
-    set_compliance_slope(1, COMPLIANCE_SLOPE);
-    vTaskDelay(pdMS_TO_TICKS(50)); 
-    set_compliance_slope(2, COMPLIANCE_SLOPE);
-    vTaskDelay(pdMS_TO_TICKS(50)); 
-    set_compliance_slope(2, COMPLIANCE_SLOPE);
-
+    // init servos
+    set_torque(1, 1); vTaskDelay(pdMS_TO_TICKS(10)); 
+    set_torque(2, 1); vTaskDelay(pdMS_TO_TICKS(10)); 
+    set_torque(3, 1); vTaskDelay(pdMS_TO_TICKS(10));
+    set_compliance_slope(1, COMPLIANCE_SLOPE); vTaskDelay(pdMS_TO_TICKS(10)); 
+    set_compliance_slope(2, COMPLIANCE_SLOPE); vTaskDelay(pdMS_TO_TICKS(10)); 
+    set_compliance_slope(3, 0);
 
     configure_led();
 

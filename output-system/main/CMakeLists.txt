@@ -1,4 +1,6 @@
-idf_component_register(SRCS "force-reader.c" "output-main.c"
+idf_component_register(SRCS "actuator_math.c"
+                            "force-reader.c"
+                            "output-main.c"
                             "wifi_ap.c"
                             "tcp_server.c"
                        INCLUDE_DIRS "."

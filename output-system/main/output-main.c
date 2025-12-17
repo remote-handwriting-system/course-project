@@ -15,6 +15,7 @@
 #include "tcp_server.h"
 #include "force-reader.h"
 #include "packet.h"
+#include "actuator_math.h"
 
 
 // macros
@@ -179,8 +180,8 @@ void init_servos() {
 }
 
 void servo_task(void *pvParameters) {
-    double current_x = ARM1_LEN+ARM2_LEN;
-    double current_y = 0.0f;
+    float current_x = ARM1_LEN+ARM2_LEN;
+    float current_y = 0.0f;
     int8_t  current_elbow_sign = 1;
     uint16_t target_force = 0;
     uint16_t current_force = 0;
@@ -209,58 +210,27 @@ void servo_task(void *pvParameters) {
         }
 
         // inverse kinematics
-        float cos_theta2 = (pow(current_x, 2.0f) + pow(current_y, 2.0f) - 
-                           pow((double) ARM1_LEN, 2.0f) -
-                           pow((double) ARM2_LEN, 2.0f)) /
-                           (2.0f * ARM1_LEN * ARM2_LEN);
-
-        if (cos_theta2 > 1.0f) cos_theta2 = 1.0f;
-        if (cos_theta2 < -1.0f) cos_theta2 = -1.0f;
-
-        float theta2_rad = (current_elbow_sign > 0) ? acosf(cos_theta2) : -acosf(cos_theta2);
-        int servo_val_elbow = SERVO_MIDPOINT + (int)(theta2_rad * 195.57f);
-
-        float k1 = ARM1_LEN + ARM2_LEN * cosf(theta2_rad);
-        float k2 = ARM2_LEN * sinf(theta2_rad);
-        float theta1_rad = atan2f(current_y, current_x) - atan2f(k2, k1);
-        int servo_val_shoulder = SERVO_MIDPOINT + (int)(theta1_rad * 195.57f);
-
-        if (servo_val_elbow < 0) servo_val_elbow = 0;
-        if (servo_val_elbow > 1023) servo_val_elbow = 1023;
-        if (servo_val_shoulder < 0) servo_val_shoulder = 0;
-        if (servo_val_shoulder > 1023) servo_val_shoulder = 1023;
+        ik_result_t ik_result;
+        inverse_kinematics(current_x, current_y, current_elbow_sign, ARM1_LEN, ARM2_LEN, SERVO_MIDPOINT, &ik_result);
 
         // force feedback
-        force_reader_read_raw(&current_force); 
+        force_reader_read_raw(&current_force);
+        int16_t error = force_effect(target_force, current_force, &end_effector_pos, SERVO_MIDPOINT, END_SERVO_LIMIT, PROP_GAIN, FORCE_DEADBAND);
 
-        int16_t error = target_force - current_force;
-
-        int placeholder = 0;
-        if (abs(error) > FORCE_DEADBAND) {
-            end_effector_pos += (error * PROP_GAIN);
-            placeholder = (error * PROP_GAIN);
-        }
-        if (end_effector_pos > END_SERVO_LIMIT) {
-            end_effector_pos = END_SERVO_LIMIT;
-        }
-        if (end_effector_pos < SERVO_MIDPOINT) {
-            end_effector_pos = SERVO_MIDPOINT;
-        }
-
+        // Printing
         if (cnt >= 10) {
             cnt = 0;
             ESP_LOGI(TAG_SERVO, "target force:   %d", target_force);
             ESP_LOGI(TAG_SERVO, "sensed force:   %d", current_force);
             ESP_LOGI(TAG_SERVO, "error:          %d", error);
             ESP_LOGI(TAG_SERVO, "end_eff_pos:    %d", end_effector_pos);
-            ESP_LOGI(TAG_SERVO, "change:         %d", placeholder);
         } else {
             cnt++;
         }
 
-        // // drive servos
-        dynamixel_set_position(1, servo_val_shoulder);
-        dynamixel_set_position(2, servo_val_elbow);
+        // drive servos
+        dynamixel_set_position(1, ik_result.servo_val_shoulder);
+        dynamixel_set_position(2, ik_result.servo_val_elbow);
         dynamixel_set_position(3, end_effector_pos);
 
         // dynamixel_set_position(3, 512);

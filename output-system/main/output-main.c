@@ -36,11 +36,11 @@
 #define ADDR_MOVING_SPEED         0x20
 #define ADDR_CW_COMPLIANCE_SLOPE  0x1C
 #define ADDR_CCW_COMPLIANCE_SLOPE 0x1D
-#define COMPLIANCE_SLOPE          0
+#define COMPLIANCE_SLOPE          200
 #define SERVO_MIDPOINT            512
 #define END_SERVO_LIMIT           576 // physical max is 592
 #define ARM1_LEN                  72.0f
-#define ARM2_LEN                  72.0f
+#define ARM2_LEN                  101.4f
 
 #define TAG_MAIN                  "MAIN"
 #define TAG_SERVO                 "SERVO"
@@ -169,8 +169,8 @@ void init_servos() {
     set_torque(1, 1); vTaskDelay(pdMS_TO_TICKS(10)); 
     set_torque(2, 1); vTaskDelay(pdMS_TO_TICKS(10)); 
     set_torque(3, 1); vTaskDelay(pdMS_TO_TICKS(10));
-    dynamixel_set_position(1, 400), vTaskDelay(pdMS_TO_TICKS(10));
-    dynamixel_set_position(2, 400), vTaskDelay(pdMS_TO_TICKS(10));
+    dynamixel_set_speed(1, 400), vTaskDelay(pdMS_TO_TICKS(10));
+    dynamixel_set_speed(2, 400), vTaskDelay(pdMS_TO_TICKS(10));
     // dynamixel_set_position(3, 400), vTaskDelay(pdMS_TO_TICKS(10));
     set_compliance_slope(1, COMPLIANCE_SLOPE); vTaskDelay(pdMS_TO_TICKS(10)); 
     set_compliance_slope(2, COMPLIANCE_SLOPE); vTaskDelay(pdMS_TO_TICKS(10)); 

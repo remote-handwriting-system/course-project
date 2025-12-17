@@ -24,8 +24,8 @@
 #define BOOT_BUTTON_GPIO                GPIO_NUM_9
 #define BUTTON_DEBOUNCE_MS              50
 #define ELBOW_SIGN_SWITCH_THRESHOLD_DEG 1
-#define ARM1_LEN                        72.0f
-#define ARM2_LEN                        72.0f
+#define ARM1_LEN                        71.24f
+#define ARM2_LEN                        98.85f
 #define TAG_MAIN                        "MAIN"
 #define TAG_ENC                         "ENC"
 #define TAG_BTN                         "BUTTON"

@@ -42,6 +42,8 @@
 #define END_SERVO_LIMIT           576 // physical max is 592
 #define ARM1_LEN                  72.0f
 #define ARM2_LEN                  101.4f
+#define LOW_PASS_X_ALPHA          0.3f // The larger, the more influence the new datapoint has on the x-axis movement
+#define LOW_PASS_Y_ALPHA          0.3f // The larger, the more influence the new datapoint has on the y-axis movement
 
 #define TAG_MAIN                  "MAIN"
 #define TAG_SERVO                 "SERVO"
@@ -199,6 +201,10 @@ void servo_task(void *pvParameters) {
     const TickType_t xFrequency = pdMS_TO_TICKS(20); // Run at 50Hz (20ms)
     //placeholder
     uint64_t cnt = 0;
+
+    float filtered_pos_x = 0.0f;
+    float filtered_pos_y = 0.0f;
+    bool is_first_iteration = true;
     while (1) {
         // check for network packet
         if (xQueueReceive(packet_queue, &rx_packet, 0) == pdPASS) {
@@ -209,9 +215,18 @@ void servo_task(void *pvParameters) {
             target_force = rx_packet.force;
         }
 
+        // low pass filter on position
+        if (is_first_iteration) {
+            filtered_pos_x = current_x;
+            filtered_pos_y = current_y;
+            is_first_iteration = false;
+        }
+        filtered_pos_x = low_pass_pos_filter(filtered_pos_x, current_x, LOW_PASS_X_ALPHA);
+        filtered_pos_y = low_pass_pos_filter(filtered_pos_y, current_y, LOW_PASS_Y_ALPHA);
+
         // inverse kinematics
         ik_result_t ik_result;
-        inverse_kinematics(current_x, current_y, current_elbow_sign, ARM1_LEN, ARM2_LEN, SERVO_MIDPOINT, &ik_result);
+        inverse_kinematics(filtered_pos_x, filtered_pos_y, current_elbow_sign, ARM1_LEN, ARM2_LEN, SERVO_MIDPOINT, &ik_result);
 
         // force feedback
         force_reader_read_raw(&current_force);

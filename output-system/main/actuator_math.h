@@ -34,6 +34,21 @@ void inverse_kinematics(float target_x,
                        ik_result_t *result);
 
 /**
+ * @brief Low-pass filter for position data
+ *
+ * Applies exponential smoothing to filter noisy position data.
+ * Output = alpha * new_data + (1 - alpha) * old_filtered
+ *
+ * @param[in] old_filtered Previously filtered value
+ * @param[in] new_data New raw data point
+ * @param[in] alpha Filter coefficient (0.0 to 1.0)
+ *                  - Higher values (closer to 1.0) = less filtering, faster response
+ *                  - Lower values (closer to 0.0) = more filtering, slower response
+ * @return float The filtered output value
+ */
+float low_pass_pos_filter(float old_filtered, float new_data, float alpha);
+
+/**
  * @brief Calculate force feedback control for end effector
  *
  * Implements proportional control to adjust end effector position based on

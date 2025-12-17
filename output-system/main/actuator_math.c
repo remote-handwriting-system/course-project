@@ -33,6 +33,10 @@ void inverse_kinematics(float target_x,
     result->servo_val_elbow = servo_val_elbow;
 }
 
+float low_pass_pos_filter(float old_filtered, float new_data, float alpha) {
+    return alpha * new_data + (1.0f - alpha) * old_filtered;
+}
+
 int16_t force_effect(uint16_t target_force,
                     uint16_t current_force,
                     uint16_t *end_effector_pos,

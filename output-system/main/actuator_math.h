@@ -48,6 +48,20 @@ void inverse_kinematics(float target_x,
  */
 float low_pass_pos_filter(float old_filtered, float new_data, float alpha);
 
+typedef struct {
+    float prev_x;
+    float prev_y;
+    float filtered_x;
+    float filtered_y;
+    uint32_t prev_time_ms;
+    bool initialized;
+    float max_speed;  // mm/s - tune this to your drawing speed
+} VelocityFilter;
+
+void velocity_filter_init(VelocityFilter* filter, float max_speed);
+void velocity_filter_apply(VelocityFilter* filter, float raw_x, float raw_y, 
+                          float* filtered_x, float* filtered_y);
+
 /**
  * @brief Calculate force feedback control for end effector
  *

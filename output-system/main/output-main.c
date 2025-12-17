@@ -202,6 +202,10 @@ void servo_task(void *pvParameters) {
     //placeholder
     uint64_t cnt = 0;
 
+    // Initialize velocity-based filter
+    VelocityFilter vel_filter;
+    velocity_filter_init(&vel_filter, 100.0f);  // Max speed: 100 mm/s - tune this!
+
     float filtered_pos_x = 0.0f;
     float filtered_pos_y = 0.0f;
     bool is_first_iteration = true;
@@ -215,14 +219,21 @@ void servo_task(void *pvParameters) {
             target_force = rx_packet.force;
         }
 
-        // low pass filter on position
-        if (is_first_iteration) {
-            filtered_pos_x = current_x;
-            filtered_pos_y = current_y;
-            is_first_iteration = false;
-        }
-        filtered_pos_x = low_pass_pos_filter(filtered_pos_x, current_x, LOW_PASS_X_ALPHA);
-        filtered_pos_y = low_pass_pos_filter(filtered_pos_y, current_y, LOW_PASS_Y_ALPHA);
+        // // low pass filter on position
+        // if (is_first_iteration) {
+        //     filtered_pos_x = current_x;
+        //     filtered_pos_y = current_y;
+        //     is_first_iteration = false;
+        // }
+        // filtered_pos_x = low_pass_pos_filter(filtered_pos_x, current_x, LOW_PASS_X_ALPHA);
+        // filtered_pos_y = low_pass_pos_filter(filtered_pos_y, current_y, LOW_PASS_Y_ALPHA);
+
+        // // inverse kinematics
+        // ik_result_t ik_result;
+        // inverse_kinematics(filtered_pos_x, filtered_pos_y, current_elbow_sign, ARM1_LEN, ARM2_LEN, SERVO_MIDPOINT, &ik_result);
+
+        // Apply velocity-based filtering
+        velocity_filter_apply(&vel_filter, current_x, current_y, &filtered_pos_x, &filtered_pos_y);
 
         // inverse kinematics
         ik_result_t ik_result;

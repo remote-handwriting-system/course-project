@@ -37,6 +37,63 @@ float low_pass_pos_filter(float old_filtered, float new_data, float alpha) {
     return alpha * new_data + (1.0f - alpha) * old_filtered;
 }
 
+void velocity_filter_init(VelocityFilter* filter, float max_speed) {
+    filter->prev_x = 0.0f;
+    filter->prev_y = 0.0f;
+    filter->filtered_x = 0.0f;
+    filter->filtered_y = 0.0f;
+    filter->prev_time_ms = 0;
+    filter->initialized = false;
+    filter->max_speed = max_speed;  // e.g., 100.0f for 100 mm/s
+}
+
+void velocity_filter_apply(VelocityFilter* filter, float raw_x, float raw_y,
+                          float* filtered_x, float* filtered_y) {
+    uint32_t current_time_ms = xTaskGetTickCount() * portTICK_PERIOD_MS;
+    
+    // Initialize on first call
+    if (!filter->initialized) {
+        filter->prev_x = raw_x;
+        filter->prev_y = raw_y;
+        filter->filtered_x = raw_x;
+        filter->filtered_y = raw_y;
+        filter->prev_time_ms = current_time_ms;
+        filter->initialized = true;
+        *filtered_x = raw_x;
+        *filtered_y = raw_y;
+        return;
+    }
+    
+    // Calculate time delta (in seconds)
+    float dt = (current_time_ms - filter->prev_time_ms) / 1000.0f;
+    if (dt <= 0.0f) dt = 0.02f;  // Fallback to 20ms if time didn't advance
+    
+    // Calculate velocity (mm/s)
+    float velocity_x = (raw_x - filter->prev_x) / dt;
+    float velocity_y = (raw_y - filter->prev_y) / dt;
+    float speed = sqrtf(velocity_x * velocity_x + velocity_y * velocity_y);
+    
+    // Adaptive alpha based on speed
+    // Slow movement (0 mm/s) -> alpha = 0.1 (heavy filtering)
+    // Fast movement (max_speed) -> alpha = 0.7 (light filtering)
+    float speed_ratio = speed / filter->max_speed;
+    if (speed_ratio > 1.0f) speed_ratio = 1.0f;  // Clamp to max
+    float alpha = 0.1f + 0.6f * speed_ratio;
+    
+    // Apply low-pass filter
+    filter->filtered_x = alpha * raw_x + (1.0f - alpha) * filter->filtered_x;
+    filter->filtered_y = alpha * raw_y + (1.0f - alpha) * filter->filtered_y;
+    
+    // Update outputs
+    *filtered_x = filter->filtered_x;
+    *filtered_y = filter->filtered_y;
+    
+    // Store for next iteration
+    filter->prev_x = raw_x;
+    filter->prev_y = raw_y;
+    filter->prev_time_ms = current_time_ms;
+}
+
 int16_t force_effect(uint16_t target_force,
                     uint16_t current_force,
                     uint16_t *end_effector_pos,

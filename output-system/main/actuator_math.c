@@ -1,6 +1,8 @@
 #include "actuator_math.h"
 #include <math.h>
 #include <stdlib.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 
 void inverse_kinematics(float target_x,
                        float target_y,
@@ -8,6 +10,9 @@ void inverse_kinematics(float target_x,
                        float arm1_len,
                        float arm2_len,
                        uint16_t servo_midpoint,
+                       int prev_shoulder,
+                       int prev_elbow,
+                       int max_speed,
                        ik_result_t *result) {
 
     float cos_theta2 = (powf(target_x, 2.0f) + powf(target_y, 2.0f) - powf(arm1_len, 2.0f) - powf(arm2_len, 2.0f)) / (2.0f * arm1_len * arm2_len);
@@ -31,6 +36,31 @@ void inverse_kinematics(float target_x,
 
     result->servo_val_shoulder = servo_val_shoulder;
     result->servo_val_elbow = servo_val_elbow;
+
+    // Calculate coordinated speeds for straight-line motion
+    int delta_shoulder = abs(servo_val_shoulder - prev_shoulder);
+    int delta_elbow = abs(servo_val_elbow - prev_elbow);
+
+    // Find the joint that needs to move the most
+    int max_delta = (delta_shoulder > delta_elbow) ? delta_shoulder : delta_elbow;
+
+    if (max_delta == 0) {
+        // No movement needed
+        result->servo_speed_shoulder = max_speed;
+        result->servo_speed_elbow = max_speed;
+    } else {
+        // Scale speeds proportionally so both joints finish at the same time
+        result->servo_speed_shoulder = (delta_shoulder * max_speed) / max_delta;
+        result->servo_speed_elbow = (delta_elbow * max_speed) / max_delta;
+
+        // Ensure minimum speed of 1 if there's any movement
+        if (delta_shoulder > 0 && result->servo_speed_shoulder == 0) {
+            result->servo_speed_shoulder = 1;
+        }
+        if (delta_elbow > 0 && result->servo_speed_elbow == 0) {
+            result->servo_speed_elbow = 1;
+        }
+    }
 }
 
 float low_pass_pos_filter(float old_filtered, float new_data, float alpha) {

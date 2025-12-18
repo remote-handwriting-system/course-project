@@ -95,7 +95,7 @@
 #define MAX_SERVO_SPEED           800    // Maximum servo speed (0-1023, tune for responsiveness)
 #define USE_INTERPOLATION         false   // Enable interpolation for smooth path following
 #define INTERPOLATION_STEP        8.0f   // mm per step - smaller = smoother but slower
-#define USE_LOWPASS_FILTER        false  // Enable low-pass filter to reduce noise (adds lag)
+#define USE_LOWPASS_FILTER        true  // Enable low-pass filter to reduce noise (adds lag)
 #define LOW_PASS_X_ALPHA          0.3f   // Low-pass filter coefficient for X (0-1, higher = less filtering)
 #define LOW_PASS_Y_ALPHA          0.3f   // Low-pass filter coefficient for Y (0-1, higher = less filtering)
 
@@ -316,7 +316,7 @@ void dynamixel_init_servos() {
     dynamixel_set_torque(3, 1); vTaskDelay(pdMS_TO_TICKS(10));
     dynamixel_set_speed(1, 400); vTaskDelay(pdMS_TO_TICKS(10));
     dynamixel_set_speed(2, 400); vTaskDelay(pdMS_TO_TICKS(10));
-    dynamixel_set_position(3, 400), vTaskDelay(pdMS_TO_TICKS(10));
+    dynamixel_set_position(3, SERVO_MIDPOINT), vTaskDelay(pdMS_TO_TICKS(10));
     dynamixel_set_compliance_slope(1, COMPLIANCE_SLOPE); vTaskDelay(pdMS_TO_TICKS(10));
     dynamixel_set_compliance_slope(2, COMPLIANCE_SLOPE); vTaskDelay(pdMS_TO_TICKS(10));
     dynamixel_set_compliance_slope(3, COMPLIANCE_SLOPE); // TODO determine this
@@ -358,7 +358,7 @@ void servo_task(void *pvParameters) {
     force_reader_init();
 
     TickType_t xLastWakeTime = xTaskGetTickCount();
-    const TickType_t xFrequency = pdMS_TO_TICKS(20); // Run at 50Hz (20ms)
+    const TickType_t xFrequency = pdMS_TO_TICKS(10); // Run at 50Hz (20ms)
 
     //placeholder
     uint64_t cnt = 0;
@@ -437,37 +437,45 @@ void servo_task(void *pvParameters) {
             // ESP_LOGI(TAG_SERVO, "Queue: %d/%d packets | target: (%.2f, %.2f) actual: (%.2f, %.2f)",
             //          queue_items, PACKET_BUFFER_SIZE, target_x, target_y, actual_x, actual_y);
             // ESP_LOGI(TAG_SERVO, "servo speeds: shoulder=%d elbow=%d", ik_result.servo_speed_shoulder, ik_result.servo_speed_elbow);
-            // ESP_LOGI(TAG_SERVO, "target force: %d sensed: %d error: %d", target_force, current_force, error);
-            float servo1_angle = ((float) ik_result.servo_val_elbow-(float)SERVO_MIDPOINT)*(360.0f/1023.0f);
-            float servo2_angle = ((float) ik_result.servo_val_shoulder-(float)SERVO_MIDPOINT)*(360.0f/1023.0f);
-            ESP_LOGI(TAG_SERVO, "%d and %d", ik_result.servo_val_elbow, ik_result.servo_val_shoulder);
-            ESP_LOGI(TAG_SERVO, "%f and %f", servo1_angle, servo2_angle);
-            ESP_LOGI(TAG_SERVO, "recv angles: %f and %f", rx_packet.angle_shoulder, rx_packet.angle_elbow);
+            ESP_LOGI(TAG_SERVO, "target force: %d sensed: %d error: %d", target_force, current_force, error);
+
+            // float servo1_angle = ((float) ik_result.servo_val_elbow-(float)SERVO_MIDPOINT)*(360.0f/1023.0f);
+            // float servo2_angle = ((float) ik_result.servo_val_shoulder-(float)SERVO_MIDPOINT)*(360.0f/1023.0f);
+            // ESP_LOGI(TAG_SERVO, "%d and %d", ik_result.servo_val_elbow, ik_result.servo_val_shoulder);
+            // ESP_LOGI(TAG_SERVO, "%f and %f", servo1_angle, servo2_angle);
+            // ESP_LOGI(TAG_SERVO, "recv angles: %f and %f", rx_packet.angle_shoulder, rx_packet.angle_elbow);
         } else {
             cnt++;
         }
 
         // drive servos with coordinated speeds (only update speed if changed)
-        if (ik_result.servo_speed_shoulder != last_speed_shoulder) {
-            dynamixel_set_speed(1, ik_result.servo_speed_shoulder);
-            last_speed_shoulder = ik_result.servo_speed_shoulder;
-        }
-        if (ik_result.servo_speed_elbow != last_speed_elbow) {
-            dynamixel_set_speed(2, ik_result.servo_speed_elbow);
-            last_speed_elbow = ik_result.servo_speed_elbow;
-        }
+        // if (ik_result.servo_speed_shoulder != last_speed_shoulder) {
+        //     dynamixel_set_speed(1, ik_result.servo_speed_shoulder);
+        //     last_speed_shoulder = ik_result.servo_speed_shoulder;
+        // }
+        // if (ik_result.servo_speed_elbow != last_speed_elbow) {
+        //     dynamixel_set_speed(2, ik_result.servo_speed_elbow);
+        //     last_speed_elbow = ik_result.servo_speed_elbow;
+        // }
 
         // Always update positions
-        dynamixel_set_position(1, ik_result.servo_val_shoulder);
-        dynamixel_set_position(2, ik_result.servo_val_elbow);
+        // dynamixel_set_position(1, ik_result.servo_val_shoulder);
+        // dynamixel_set_position(2, ik_result.servo_val_elbow);
         dynamixel_set_position(3, end_effector_pos);
 
+        // angle pos
+        int elbow_pos = (int) (rx_packet.angle_elbow * (1023.0f/360.0f))+SERVO_MIDPOINT;
+        int shoulder_pos = (int) (rx_packet.angle_shoulder * (1023.0f/360.0f))+SERVO_MIDPOINT;
+        dynamixel_set_position(1, shoulder_pos);
+        dynamixel_set_position(2, elbow_pos);
+        ESP_LOGI(TAG_SERVO, "%d and %d", shoulder_pos, elbow_pos);
+
         // Update previous positions for next iteration
-        prev_shoulder = ik_result.servo_val_shoulder;
-        prev_elbow = ik_result.servo_val_elbow;
+        // prev_shoulder = ik_result.servo_val_shoulder;
+        // prev_elbow = ik_result.servo_val_elbow;
 
         // Wait for next control cycle (50Hz timing)
-        vTaskDelayUntil(&xLastWakeTime, xFrequency);
+        // vTaskDelayUntil(&xLastWakeTime, xFrequency);
     }
 }
 

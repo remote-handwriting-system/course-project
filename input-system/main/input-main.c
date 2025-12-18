@@ -57,7 +57,7 @@
 #define USE_TEST_SQUARE_MODE        false
 
 // Transmission Frequency
-#define INPUT_READING_FREQUENCY_MS  100   // Encoder sampling interval (default: 100ms = 10Hz)
+#define INPUT_READING_FREQUENCY_MS  75   // Encoder sampling interval (default: 100ms = 10Hz)
 #define SQUARE_TRANSMIT_DELAY_MS    500   // Delay between square waypoints in test mode (default: 500ms)
 
 // GPIO Configuration
@@ -210,6 +210,7 @@ void button_task(void *pvParameters) {
                         // Perform calibration
                         calibrate_encoders();
                         ESP_LOGI("bias", "%f", theta2_bias_deg);
+                        ESP_LOGI("bias", "%f", theta1_bias_deg);
                         
 
                         // Transition to transmitting
@@ -276,24 +277,33 @@ void input_reading_task(void *pvParameters) {
                 pos_2d_get_position(&pos_x, &pos_y);
                 
                 // calculate elbow position
-                float angle_diff = theta2_deg - theta2_bias_deg;
-                if (angle_diff > 180.0f) {
-                    angle_diff -= 360.0f;
+                float elbow_angle_diff = theta2_deg - theta2_bias_deg;
+                if (elbow_angle_diff > 180.0f) {
+                    elbow_angle_diff -= 360.0f;
                 }
-                if (angle_diff < -180.0f) {
-                    angle_diff += 360.0f;
+                if (elbow_angle_diff < -180.0f) {
+                    elbow_angle_diff += 360.0f;
                 }
-                if (angle_diff > ELBOW_SIGN_SWITCH_THRESHOLD_DEG) {
+                if (elbow_angle_diff > ELBOW_SIGN_SWITCH_THRESHOLD_DEG) {
                     elbow_sign = 1;
-                } else if (angle_diff < -ELBOW_SIGN_SWITCH_THRESHOLD_DEG) {
+                } else if (elbow_angle_diff < -ELBOW_SIGN_SWITCH_THRESHOLD_DEG) {
                     elbow_sign = -1;
+                }
+
+                // calculate shoulder position
+                float shoulder_angle_diff = theta1_deg - theta1_bias_deg;
+                if (shoulder_angle_diff > 180.0f) {
+                    shoulder_angle_diff -= 360.0f;
+                }
+                if (shoulder_angle_diff < -180.0f) {
+                    shoulder_angle_diff += 360.0f;
                 }
 
                 packet_t packet;
                 packet.pos_x = pos_x;
                 packet.pos_y = pos_y;
-                packet.angle_elbow = theta2_deg-theta2_bias_deg;
-                packet.angle_shoulder = theta1_deg-theta1_bias_deg;
+                packet.angle_elbow = elbow_angle_diff;
+                packet.angle_shoulder = shoulder_angle_diff;
                 packet.elbow_sign = elbow_sign;
                 packet.force = current_force;
                 packet.timestamp = xTaskGetTickCount() * portTICK_PERIOD_MS;
@@ -303,7 +313,7 @@ void input_reading_task(void *pvParameters) {
 
                 // logging
                 // ESP_LOGI(TAG_ENC, "Pos X: %.2f, Pos Y: %.2f, force: %d", pos_x, pos_y, current_force);
-                ESP_LOGI(TAG_ENC, "%f deg and %f deg", theta1_deg, theta2_deg-theta2_bias_deg);
+                ESP_LOGI(TAG_ENC, "%f deg and %f deg", theta1_deg-theta1_bias_deg, theta2_deg-theta2_bias_deg);
             }
             if (!encoder_read_success){
                 ESP_LOGE(TAG_ENC, "Encoder read fail");

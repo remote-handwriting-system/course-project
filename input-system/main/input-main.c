@@ -98,6 +98,7 @@ typedef enum {
 QueueHandle_t packet_queue;
 volatile system_state_t system_state = STATE_IDLE;
 volatile bool encoders_initialized = false;
+float theta1_bias_deg;
 float theta2_bias_deg;
 
 
@@ -128,7 +129,7 @@ void calibrate_encoders() {
 
     // Capture current arm configuration as the zero/home reference position
     ESP_LOGI(TAG_ENC, "Calibrating zero position (set current arm position as straight)...");
-    ESP_ERROR_CHECK(pos_2d_calibrate_zero_position(&theta2_bias_deg));
+    ESP_ERROR_CHECK(pos_2d_calibrate_zero_position(&theta1_bias_deg, &theta2_bias_deg));
 
     ESP_LOGI(TAG_ENC, "Calibration complete");
 }
@@ -291,6 +292,8 @@ void input_reading_task(void *pvParameters) {
                 packet_t packet;
                 packet.pos_x = pos_x;
                 packet.pos_y = pos_y;
+                packet.angle_elbow = theta2_deg-theta2_bias_deg;
+                packet.angle_shoulder = theta1_deg-theta1_bias_deg;
                 packet.elbow_sign = elbow_sign;
                 packet.force = current_force;
                 packet.timestamp = xTaskGetTickCount() * portTICK_PERIOD_MS;
@@ -299,7 +302,8 @@ void input_reading_task(void *pvParameters) {
                 xQueueSend(packet_queue, &packet, 0);
 
                 // logging
-                ESP_LOGI(TAG_ENC, "Pos X: %.2f, Pos Y: %.2f, force: %d", pos_x, pos_y, current_force);
+                // ESP_LOGI(TAG_ENC, "Pos X: %.2f, Pos Y: %.2f, force: %d", pos_x, pos_y, current_force);
+                ESP_LOGI(TAG_ENC, "%f deg and %f deg", theta1_deg, theta2_deg-theta2_bias_deg);
             }
             if (!encoder_read_success){
                 ESP_LOGE(TAG_ENC, "Encoder read fail");

@@ -105,7 +105,7 @@ esp_err_t pos_2d_set_arm_lengths(float arm1_length, float arm2_length)
     return ESP_OK;
 }
 
-esp_err_t pos_2d_calibrate_zero_position(float *theta2_bias_deg)
+esp_err_t pos_2d_calibrate_zero_position(float *theta1_bias_deg, float *theta2_bias_deg)
 {
     if (!initialized) {
         ESP_LOGE(TAG, "2D position encoder not initialized");
@@ -131,6 +131,7 @@ esp_err_t pos_2d_calibrate_zero_position(float *theta2_bias_deg)
     // Store current angles as the bias values
     bias1_rad = theta1_rad_current;
     bias2_rad = theta2_rad_current;
+    *theta1_bias_deg = theta1_rad_current * (360/(2*M_PI));
     *theta2_bias_deg = theta2_rad_current * (360/(2*M_PI));
 
     ESP_LOGI(TAG, "Calibrated zero position: bias1=%.3f rad (%.1f°), bias2=%.3f rad (%.1f°)",

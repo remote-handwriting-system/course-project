@@ -316,7 +316,7 @@ void dynamixel_init_servos() {
     dynamixel_set_torque(3, 1); vTaskDelay(pdMS_TO_TICKS(10));
     dynamixel_set_speed(1, 400); vTaskDelay(pdMS_TO_TICKS(10));
     dynamixel_set_speed(2, 400); vTaskDelay(pdMS_TO_TICKS(10));
-    // dynamixel_set_position(3, 400), vTaskDelay(pdMS_TO_TICKS(10));
+    dynamixel_set_position(3, 400), vTaskDelay(pdMS_TO_TICKS(10));
     dynamixel_set_compliance_slope(1, COMPLIANCE_SLOPE); vTaskDelay(pdMS_TO_TICKS(10));
     dynamixel_set_compliance_slope(2, COMPLIANCE_SLOPE); vTaskDelay(pdMS_TO_TICKS(10));
     dynamixel_set_compliance_slope(3, COMPLIANCE_SLOPE); // TODO determine this
@@ -374,7 +374,7 @@ void servo_task(void *pvParameters) {
     int last_speed_elbow = -1;
 
     while (1) {
-        // check for network packet
+        // 1. Receive Packets (Update the "Target")
         if (xQueueReceive(packet_queue, &rx_packet, 0) == pdPASS) {
             // ESP_LOGI(TAG_SERVO, "packet received");
             float new_target_x = rx_packet.pos_x;
@@ -431,13 +431,18 @@ void servo_task(void *pvParameters) {
         int16_t error = force_effect(target_force, current_force, &end_effector_pos, SERVO_MIDPOINT, END_SERVO_LIMIT, FORCE_PROP_GAIN, FORCE_DEADBAND);
 
         // Printing
-        if (cnt >= 10) {
+        if (cnt >= 1) {
             cnt = 0;
-            UBaseType_t queue_items = uxQueueMessagesWaiting(packet_queue);
-            ESP_LOGI(TAG_SERVO, "Queue: %d/%d packets | target: (%.2f, %.2f) actual: (%.2f, %.2f)",
-                     queue_items, PACKET_BUFFER_SIZE, target_x, target_y, actual_x, actual_y);
-            ESP_LOGI(TAG_SERVO, "servo speeds: shoulder=%d elbow=%d", ik_result.servo_speed_shoulder, ik_result.servo_speed_elbow);
-            ESP_LOGI(TAG_SERVO, "target force: %d sensed: %d error: %d", target_force, current_force, error);
+            // UBaseType_t queue_items = uxQueueMessagesWaiting(packet_queue);
+            // ESP_LOGI(TAG_SERVO, "Queue: %d/%d packets | target: (%.2f, %.2f) actual: (%.2f, %.2f)",
+            //          queue_items, PACKET_BUFFER_SIZE, target_x, target_y, actual_x, actual_y);
+            // ESP_LOGI(TAG_SERVO, "servo speeds: shoulder=%d elbow=%d", ik_result.servo_speed_shoulder, ik_result.servo_speed_elbow);
+            // ESP_LOGI(TAG_SERVO, "target force: %d sensed: %d error: %d", target_force, current_force, error);
+            float servo1_angle = ((float) ik_result.servo_val_elbow-(float)SERVO_MIDPOINT)*(360.0f/1023.0f);
+            float servo2_angle = ((float) ik_result.servo_val_shoulder-(float)SERVO_MIDPOINT)*(360.0f/1023.0f);
+            ESP_LOGI(TAG_SERVO, "%d and %d", ik_result.servo_val_elbow, ik_result.servo_val_shoulder);
+            ESP_LOGI(TAG_SERVO, "%f and %f", servo1_angle, servo2_angle);
+            ESP_LOGI(TAG_SERVO, "recv angles: %f and %f", rx_packet.angle_shoulder, rx_packet.angle_elbow);
         } else {
             cnt++;
         }

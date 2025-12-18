@@ -100,7 +100,7 @@ esp_err_t pos_2d_set_arm_lengths(float arm1_length, float arm2_length);
  * @return ESP_ERR_INVALID_STATE if system not initialized
  * @return Encoder error code if angle reading fails during calibration
  */
-esp_err_t pos_2d_calibrate_zero_position(float *theta2_bias_deg);
+esp_err_t pos_2d_calibrate_zero_position(float *theta1_bias_deg, float *theta2_bias_deg);
 
 /**
  * @brief Retrieve current angular bias offsets

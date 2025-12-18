@@ -54,7 +54,7 @@
 
 // Operation Mode Configuration
 // Set to true to transmit square test pattern, false to use real encoder data
-#define USE_TEST_SQUARE_MODE        true
+#define USE_TEST_SQUARE_MODE        false
 
 // Transmission Frequency
 #define INPUT_READING_FREQUENCY_MS  100   // Encoder sampling interval (default: 100ms = 10Hz)
@@ -74,8 +74,8 @@
 #define PACKET_BUFFER_SIZE          5     // Queue size for packet buffering
 
 // Arm Geometry
-#define ARM1_LEN                    71.24f  // Length of first arm segment in mm
-#define ARM2_LEN                    98.85f  // Length of second arm segment in mm
+#define ARM1_LEN                    72.50f  // Length of first arm segment in mm
+#define ARM2_LEN                    100.20f  // Length of second arm segment in mm
 
 // Encoder Configuration
 #define ELBOW_SIGN_SWITCH_THRESHOLD_DEG 1  // Threshold for elbow up/down detection

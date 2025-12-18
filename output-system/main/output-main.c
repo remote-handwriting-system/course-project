@@ -67,7 +67,7 @@
 #define UART_PORT                 UART_NUM_1
 #define BAUD_RATE                 1000000
 #define BUF_SIZE                  256
-#define PACKET_BUFFER_SIZE        5
+#define PACKET_BUFFER_SIZE        5     // Queue size for packet buffering (increased for smoother motion)
 
 // Dynamixel Protocol
 #define INST_WRITE                0x03
@@ -93,8 +93,8 @@
 //   - If motion is laggy:                      Increase INTERPOLATION_STEP, increase MAX_SERVO_SPEED
 //   - If motion is jittery:                    Enable USE_LOWPASS_FILTER, decrease INTERPOLATION_STEP
 #define MAX_SERVO_SPEED           800    // Maximum servo speed (0-1023, tune for responsiveness)
-#define USE_INTERPOLATION         true   // Enable interpolation for smooth path following
-#define INTERPOLATION_STEP        5.0f   // mm per step - smaller = smoother but slower
+#define USE_INTERPOLATION         false   // Enable interpolation for smooth path following
+#define INTERPOLATION_STEP        8.0f   // mm per step - smaller = smoother but slower
 #define USE_LOWPASS_FILTER        false  // Enable low-pass filter to reduce noise (adds lag)
 #define LOW_PASS_X_ALPHA          0.3f   // Low-pass filter coefficient for X (0-1, higher = less filtering)
 #define LOW_PASS_Y_ALPHA          0.3f   // Low-pass filter coefficient for Y (0-1, higher = less filtering)
@@ -357,16 +357,21 @@ void servo_task(void *pvParameters) {
 
     force_reader_init();
 
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+    const TickType_t xFrequency = pdMS_TO_TICKS(20); // Run at 50Hz (20ms)
+
     //placeholder
     uint64_t cnt = 0;
 
-    float filtered_pos_x = 0.0f;
-    float filtered_pos_y = 0.0f;
     bool is_first_iteration = true;
 
     // Track previous servo positions for coordinated motion
     int prev_shoulder = SERVO_MIDPOINT;
     int prev_elbow = SERVO_MIDPOINT;
+
+    // Track previous servo speeds to avoid redundant commands
+    int last_speed_shoulder = -1;
+    int last_speed_elbow = -1;
 
     while (1) {
         // check for network packet
@@ -428,16 +433,26 @@ void servo_task(void *pvParameters) {
         // Printing
         if (cnt >= 10) {
             cnt = 0;
-            ESP_LOGI(TAG_SERVO, "target: (%.2f, %.2f) actual: (%.2f, %.2f)", target_x, target_y, actual_x, actual_y);
+            UBaseType_t queue_items = uxQueueMessagesWaiting(packet_queue);
+            ESP_LOGI(TAG_SERVO, "Queue: %d/%d packets | target: (%.2f, %.2f) actual: (%.2f, %.2f)",
+                     queue_items, PACKET_BUFFER_SIZE, target_x, target_y, actual_x, actual_y);
             ESP_LOGI(TAG_SERVO, "servo speeds: shoulder=%d elbow=%d", ik_result.servo_speed_shoulder, ik_result.servo_speed_elbow);
             ESP_LOGI(TAG_SERVO, "target force: %d sensed: %d error: %d", target_force, current_force, error);
         } else {
             cnt++;
         }
 
-        // drive servos with coordinated speeds
-        dynamixel_set_speed(1, ik_result.servo_speed_shoulder);
-        dynamixel_set_speed(2, ik_result.servo_speed_elbow);
+        // drive servos with coordinated speeds (only update speed if changed)
+        if (ik_result.servo_speed_shoulder != last_speed_shoulder) {
+            dynamixel_set_speed(1, ik_result.servo_speed_shoulder);
+            last_speed_shoulder = ik_result.servo_speed_shoulder;
+        }
+        if (ik_result.servo_speed_elbow != last_speed_elbow) {
+            dynamixel_set_speed(2, ik_result.servo_speed_elbow);
+            last_speed_elbow = ik_result.servo_speed_elbow;
+        }
+
+        // Always update positions
         dynamixel_set_position(1, ik_result.servo_val_shoulder);
         dynamixel_set_position(2, ik_result.servo_val_elbow);
         dynamixel_set_position(3, end_effector_pos);
@@ -445,6 +460,9 @@ void servo_task(void *pvParameters) {
         // Update previous positions for next iteration
         prev_shoulder = ik_result.servo_val_shoulder;
         prev_elbow = ik_result.servo_val_elbow;
+
+        // Wait for next control cycle (50Hz timing)
+        vTaskDelayUntil(&xLastWakeTime, xFrequency);
     }
 }
 
